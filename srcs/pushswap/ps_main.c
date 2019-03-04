@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ps_main.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/04 10:17:50 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/04 11:24:02 by aulopez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include <pushswap.h>
 
 void	show_tab(t_pushswap *ps)
@@ -69,7 +81,36 @@ void	rotate_till(t_pushswap *ps)
 	}
 }
 
-void	my_sorting_algorithm(t_pushswap *ps, size_t incr)
+size_t	new_find_min_max(t_pushswap *ps, size_t	*index_min)
+{
+	t_stack *tmp;
+	size_t	num;
+	size_t	index;
+
+	ps->min_a = ps->top_a->val;
+	ps->max_a = ps->top_a->val;
+	tmp = ps->top_a->prev;
+	num = 0;
+	*index_min = 0;
+	index = 0;
+	while (tmp)
+	{
+		index++;
+		if (tmp->val > ps->max_a)
+			ps->max_a = tmp->val;
+		if (tmp->val < ps->min_a)
+		{
+			ps->min_a = tmp->val;
+			*index_min = index;
+		}
+		tmp->val > tmp->next->val ? num++ : 0;
+		tmp = tmp->prev;
+	}
+	ps->top_a->val > ps->bot_a->val ? num++ : 0;
+	return (num);
+}
+
+/*void	my_sorting_algorithm(t_pushswap *ps, size_t incr)
 {
 	size_t	i;
 	size_t	j;
@@ -108,13 +149,48 @@ void	my_sorting_algorithm(t_pushswap *ps, size_t incr)
 		}
 	}
 	rotate_till(ps);
+}*/
+
+void	my_new_sorting_algorithm(t_pushswap *ps)
+{
+	size_t	order;
+	size_t	index_min;
+	int		i;
+
+	i = 0;
+	order = new_find_min_max(ps, &index_min);
+	while (1)
+	{
+		order = new_find_min_max(ps, &index_min);
+		if (order + 1 >= ps->a)
+		{
+			rotate_till(ps);
+			return ;
+		}
+		if (ps->top_a->val > ps->top_a->prev->val)
+		{
+			ps_swap(ps, SA);
+			ft_putendl("sa");
+			order = new_find_min_max(ps, &index_min);
+		}
+		if (ps->top_a->val == ps->min_a)
+		{
+			while (ps->top_a->val == ps->min_a && order + 1 < ps->a)
+			{
+				ps_push(ps, PB);
+				ft_putendl("pb");
+				new_find_min_max(ps, &index_min);
+			}
+			continue ;
+		}
+		ps_reverse_rotate(ps, RRA);
+		ft_putendl("rra");
+	}
 }
 
 int		main(int ac, char **av)
 {
 	t_pushswap	ps;
-	size_t		increasing;
-	size_t		decreasing;
 
 	if (ac == 1 || ac == 2)
 		return (0);
@@ -126,11 +202,12 @@ int		main(int ac, char **av)
 		ft_putendl_fd("Error", 2);
 		return (-1);
 	}
-	find_min_max(&ps, &increasing, &decreasing);
+	my_new_sorting_algorithm(&ps);
+	/*find_min_max(&ps, &increasing, &decreasing);
 	if (increasing + 1 == (ps.a))
 		rotate_till(&ps);
 	else
-		my_sorting_algorithm(&ps, increasing);
+		my_sorting_algorithm(&ps, increasing);*/
 	/*else if (-incr == ps.a)
 		(void)incr; //inverse list
 	else if (-incr + 1 == ps.a)
