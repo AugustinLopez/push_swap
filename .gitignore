@@ -1,0 +1,7 @@
+*.o
+*.a
+*.dSYM/
+*.su
+*DS_Store
+push_swap
+checker
