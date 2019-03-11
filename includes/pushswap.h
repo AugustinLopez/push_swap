@@ -30,6 +30,7 @@ typedef struct		s_pushswap
 	int				min_a;
 	size_t			a;
 	size_t			b;
+	int				*ref;
 }					t_pushswap;
 
 void				ps_swap(t_pushswap *ps, int option);
@@ -41,5 +42,6 @@ void				ps_operand(t_pushswap *ps, int option);
 int					ps_atoi(const char *src, int *result);
 int					load_initial_stack(t_pushswap *ps, char **av, int ac);
 void				free_stack(t_pushswap *ps);
+int					create_reference_array(t_pushswap *ps);
 
 #endif
