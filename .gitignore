@@ -3,5 +3,5 @@
 *.dSYM/
 *.su
 *DS_Store
-*push_swap
-*checker
+push_swap
+checker
