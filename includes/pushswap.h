@@ -21,30 +21,25 @@ typedef struct		s_pushswap
 	t_stack			*bot_b;
 	t_stack			*top_a;
 	t_stack			*top_b;
+	t_stack			*instruction_begin;
+	t_stack			*instruction_end;
+	int				stop;
 	size_t			a;
 	size_t			b;
 }					t_pushswap;
-
-typedef struct		s_sorting
-{
-	int				*array;
-	size_t			s;
-	int				pivot;
-	t_list			*begin;
-	t_list			*end;
-}					t_sorting;
 
 void				ps_swap(t_pushswap *ps, int option);
 void				ps_push(t_pushswap *ps, int option);
 void				ps_rotate(t_pushswap *ps, int option);
 void				ps_reverse_rotate(t_pushswap *ps, int option);
-void				ps_operand(t_pushswap *ps, int option, t_list **instruction);
-int					sort_little_a(t_pushswap *ps, t_sorting *st, size_t len);
-int					sort_little_b(t_pushswap *ps, t_sorting *st, size_t len);
-int					sort_stack_a(t_pushswap *ps, t_sorting *st, size_t len);
-int					sort_stack_b(t_pushswap *ps, t_sorting *st, size_t len);
+void				ps_operand(t_pushswap *ps, int option, int affichage);
+
+int					sort_little_a(t_pushswap *ps, size_t len);
+int					sort_little_b(t_pushswap *ps, size_t len);
+int					sort_stack_a(t_pushswap *ps, size_t len);
+
 int					load_initial_stack(t_pushswap *ps, char **av, int ac);
-void				free_stack(t_pushswap *ps);
-int					create_reference_array(t_pushswap *ps, t_sorting *st);
-void	qs_quicksort_array(int **array, int first, int last);
+int					load_instruction_stack(t_pushswap *ps, int instruction);
+void				free_all_stack(t_pushswap *ps);
+int					get_pivot(int option, t_pushswap *ps, size_t len);
 #endif

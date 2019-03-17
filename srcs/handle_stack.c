@@ -1,6 +1,6 @@
 # include <pushswap.h>
 
-void	free_stack(t_pushswap *ps)
+void	free_all_stack(t_pushswap *ps)
 {
 	t_stack	*stack;
 
@@ -17,6 +17,13 @@ void	free_stack(t_pushswap *ps)
 		stack = stack->prev;
 		free(ps->top_b);
 		ps->top_b = stack;
+	}
+	stack = ps->instruction_begin;
+	while (stack)
+	{
+		stack = stack->next;
+		free(ps->instruction_begin);
+		ps->instruction_begin = stack;
 	}
 }
 
@@ -70,5 +77,28 @@ int	load_initial_stack(t_pushswap *ps, char **av, int ac)
 		(ps->a)++;
 	}
 	ps->bot_b = NULL;
+	return (1);
+}
+
+int	load_instruction_stack(t_pushswap *ps, int instruction)
+{
+	t_stack	*elem;
+
+	if (!(ps->instruction_begin))
+	{
+		if (!(ps->instruction_begin = ft_memalloc(sizeof(t_stack))))
+			return (0);
+		ps->instruction_begin->val = instruction;
+		ps->instruction_end = ps->instruction_begin;
+	}
+	else
+	{
+		if (!(elem = ft_memalloc(sizeof(t_stack))))
+			return (0);
+		elem->val = instruction;
+		elem->prev = ps->instruction_end;
+		ps->instruction_end->next = elem;
+		ps->instruction_end = elem;
+	}
 	return (1);
 }
