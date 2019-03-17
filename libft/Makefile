@@ -39,7 +39,7 @@ __FTOA=f_bigint f_create_unit f_operand f_create_stack f_free_precision f_putnbr
 
 # --- 2.Path -------------------------------------------------------------------
 
-PATH_1HDR=../../includes/
+PATH_1HDR=../includes/
 PATH_2HDR=./srcs/includes2/
 PATH_OBJ=./obj/
 PATH_LIB=./srcs/

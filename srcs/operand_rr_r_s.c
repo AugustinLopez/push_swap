@@ -42,7 +42,7 @@ void	ps_reverse_rotate(t_pushswap *ps, int option)
 			ps->top_a->next = NULL;
 		}
 	}
-	if (option == RB || option == RRR)
+	if (option == RRB || option == RRR)
 	{
 		if (ps->bot_b && ps->top_b != ps->bot_b)
 		{

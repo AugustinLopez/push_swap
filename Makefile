@@ -16,20 +16,20 @@ NAME_2=push_swap
 # --- 1.Source/Header ----------------------------------------------------------
 
 SRC_CHECKER=ch_main
-SRC_PUSHSWAP=ps_main ps_reference_array
-SRC_BOTH=operand_main operand_solo operand_push read_arg free_stack
+SRC_PUSHSWAP=ps_main ps_reference_array ps_sort_a ps_sort_b
+SRC_BOTH=operand_main operand_p operand_rr_r_s handle_stack
 HDR=libft.h pushswap.h
 
 # --- 2.Path -------------------------------------------------------------------
 
 PATH_HDR=includes/
-PATH_SRC_C=srcs/checker/
+PATH_SRC_C=srcs/_checker/
 PATH_OBJ_C=srcs/obj/
 PATH_SRC_B=srcs/
 PATH_OBJ_B=srcs/obj/
-PATH_SRC_P=srcs/pushswap/
+PATH_SRC_P=srcs/_push_swap/
 PATH_OBJ_P=srcs/obj/
-PATH_LIB=srcs/libft/
+PATH_LIB=libft/
 
 # --- 3.File Variables ---------------------------------------------------------
 
@@ -41,7 +41,7 @@ INCLUDES=$(HDR:%=$(PATH_HDR)%)
 # --- 4.Compilation Variables --------------------------------------------------
 
 CC=gcc
-FLAGS=-Wall -Wextra -Werror -g3
+FLAGS=-Wall -Wextra -g3
 OPTION_O=$(CC) $(FLAGS) -c -I$(PATH_HDR)
 OPTION_C1=$(CC) $(FLAGS) -o
 OPTION_C2=-I$(PATH_HDR) -L$(PATH_LIB) -lft
