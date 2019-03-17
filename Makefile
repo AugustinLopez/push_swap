@@ -16,7 +16,7 @@ NAME_2=push_swap
 # --- 1.Source/Header ----------------------------------------------------------
 
 SRC_CHECKER=ch_main
-SRC_PUSHSWAP=ps_main ps_reference_array ps_sort_a ps_sort_b
+SRC_PUSHSWAP=ps_main ps_pivot ps_sort ps_sort_only_a ps_sort_only_b ps_instruction
 SRC_BOTH=operand_main operand_p operand_rr_r_s handle_stack
 HDR=libft.h pushswap.h
 

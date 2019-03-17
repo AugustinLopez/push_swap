@@ -38,6 +38,8 @@ int					sort_little_a(t_pushswap *ps, size_t len);
 int					sort_little_b(t_pushswap *ps, size_t len);
 int					sort_stack_a(t_pushswap *ps, size_t len);
 
+int					squash_instruction(t_pushswap *ps);
+
 int					load_initial_stack(t_pushswap *ps, char **av, int ac);
 int					load_instruction_stack(t_pushswap *ps, int instruction);
 void				free_all_stack(t_pushswap *ps);
