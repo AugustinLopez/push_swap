@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 10:17:50 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/04 11:24:02 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 11:21:13 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int				main(int ac, char **av)
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)))
 	{
+		free_all_stack(&ps);
 		ft_putendl_fd("Error", 2);
 		return (-1);
 	}

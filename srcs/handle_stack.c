@@ -27,12 +27,13 @@ void	free_all_stack(t_pushswap *ps)
 	}
 }
 
-static int	ps_atoi(const char *src, int *result)
+static int	ps_atoi(t_pushswap *ps, const char *src, int *result)
 {
 	char			sign;
 	long			tmp;
 	long			limit;
 
+	(ps->a)++;
 	tmp = 0;
 	sign = 0;
 	limit = INT_MAX;
@@ -68,7 +69,7 @@ int	load_space_argv(t_pushswap *ps, char *av)
 		return (0);
 	while (tmp[i])
 	{
-		if (!ps_atoi(tmp[i++], &(ps->top_a->next->val)))
+		if (!ps_atoi(ps, tmp[i++], &(ps->top_a->next->val)))
 			return (0);
 		ps->top_a->next->prev = ps->top_a;
 		ps->top_a = ps->top_a->next;
@@ -86,25 +87,18 @@ int	load_space_argv(t_pushswap *ps, char *av)
 
 int	load_initial_stack(t_pushswap *ps, char **av, int ac)
 {
-	if (!(ps->bot_a = ft_memalloc(sizeof(t_stack)))
-	|| !(ps_atoi(av[ac], &(ps->bot_a->val))))
+	if (!(ps->top_a = ft_memalloc(sizeof(t_stack)))
+	|| !(ps_atoi(ps, av[ac], &(ps->top_a->val))))
 		return (0);
-	ps->top_a = ps->bot_a;
-	ps->a = 1;
+	ps->bot_a = ps->top_a;
 	while (ac--)
 	{
 		if (!(ps->top_a->next = ft_memalloc(sizeof(t_stack))))
 			return (0);
-		if (ft_strchr(av[ac], ' '))
-		{
-			if (!(load_space_argv(ps, av[ac])))
-				return (0);
-			continue ;
-		}
-		else if (!(ps_atoi(av[ac], &(ps->top_a->next->val))))
-			return (0);
 		ps->top_a->next->prev = ps->top_a;
 		ps->top_a = ps->top_a->next;
+		if (!(ps_atoi(ps, av[ac], &(ps->top_a->val))))
+			return (0);
 		ps->bot_b = ps->bot_a;
 		while (ps->bot_b != ps->top_a)
 		{
@@ -112,7 +106,6 @@ int	load_initial_stack(t_pushswap *ps, char **av, int ac)
 				return (0);
 			ps->bot_b = ps->bot_b->next;
 		}
-		(ps->a)++;
 	}
 	ps->bot_b = NULL;
 	return (1);
