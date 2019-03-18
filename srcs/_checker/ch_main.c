@@ -96,13 +96,14 @@ int	main(int ac, char **av)
 	t_pushswap	ps;
 	int			operand;
 
-	if (ac == 1)
+	if (ac < 2)
 		return (0);
 	ac -= 2;
 	av++;
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)))
 	{
+		free_all_stack(&ps);
 		ft_putendl_fd("Error", 2);
 		return (-1);
 	}
@@ -115,6 +116,7 @@ int	main(int ac, char **av)
 		}
 		ps_operand(&ps, operand, 0);
 	}
+	show_list(&ps, 'a');
 	checker_is_it_sorted(&ps);
 	free_all_stack(&ps);
 	return (0);

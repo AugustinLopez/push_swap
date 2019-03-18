@@ -6,26 +6,12 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 10:17:50 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/18 11:21:13 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 14:08:05 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <pushswap.h>
 
-void	show_list(t_pushswap *ps, int option)
-{
-	t_stack *elem;
-
-	if (option == 'a')
-		elem = ps->top_a;
-	else
-		elem = ps->top_b;
-	while (elem)
-	{
-		ft_printf("%c.%d\n",option, elem->val);
-		elem = elem->prev;
-	}
-}
 /*
 ** Add "" and '' parsing later
 */

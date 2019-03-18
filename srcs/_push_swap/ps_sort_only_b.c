@@ -16,10 +16,6 @@ int		sort_onplace_b(t_pushswap *ps, size_t len)
 		ps_operand(ps, SB, 1);
 		ps_operand(ps, RRB, 1);
 	}
-	else if (x < z && z < y)
-		ps_operand(ps, RB, 1);
-	else if (z < x && x < y)
-		ps_operand(ps, SB, 1);
 	else if (y < z && z < x)
 	{
 		ps_operand(ps, RRB, 1);
@@ -27,6 +23,10 @@ int		sort_onplace_b(t_pushswap *ps, size_t len)
 	}
 	else if (y < x && x < z)
 		ps_operand(ps, RRB, 1);
+	else if (x < z && z < y) 
+		ps_operand(ps, RB, 1);
+	else if (z < x && x < y)
+		ps_operand(ps, SB, 1);
 	return (0);
 }
 

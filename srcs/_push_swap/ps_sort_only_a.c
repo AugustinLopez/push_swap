@@ -20,10 +20,11 @@ int		sort_onplace_a(t_pushswap *ps, size_t len)
 		ps_operand(ps, RA, 1);
 	else if (z > x && x > y)
 		ps_operand(ps, SA, 1);
-	else if (y > x && z > x)
+	else if (y > z && z > x)
 	{
 		ps_operand(ps, RRA, 1);
 		ps_operand(ps, SA, 1);
+	
 	}
 	else if (y > x && x > z)
 		ps_operand(ps, RRA, 1);

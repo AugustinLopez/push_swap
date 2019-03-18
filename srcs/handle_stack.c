@@ -1,5 +1,20 @@
 # include <pushswap.h>
 
+void	show_list(t_pushswap *ps, int option)
+{
+	t_stack *elem;
+
+	if (option == 'a')
+		elem = ps->top_a;
+	else
+		elem = ps->top_b;
+	while (elem)
+	{
+		ft_printf("%c.%d\n",option, elem->val);
+		elem = elem->prev;
+	}
+}
+
 void	free_all_stack(t_pushswap *ps)
 {
 	t_stack	*stack;
