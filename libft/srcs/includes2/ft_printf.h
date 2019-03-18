@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 12:53:41 by aulopez           #+#    #+#             */
-/*   Updated: 2019/02/03 10:58:54 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 10:40:01 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,13 @@ typedef struct			s_printf
 void					pf_char_write(t_printf *pf);
 int						pf_parse_atoi(char **str);
 void					pf_parse(t_printf *pf);
-void					pf_buffer_write(t_printf *pf, void *str, size_t size);
-void					pf_padding(t_printf *pf, int n);
+int						pf_buffer_write(t_printf *pf, void *str, size_t size);
+int						pf_padding(t_printf *pf, int n);
 void					pf_itoa_base(uintmax_t n, int base, t_printf *pf);
 char					*ft_dbltoa(double x, size_t precision, uint32_t flags);
 char					*ft_ldbltoa(long double x, size_t precision,
 						uint32_t flags);
-void					pf_sign(t_printf *pf);
+int						pf_sign(t_printf *pf);
 void					pf_itoa_quote(uintmax_t n, int b, char s[70],
 						t_printf *pf);
 void					pf_itoa_fill(uintmax_t n, int b, char s[70],

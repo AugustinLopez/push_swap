@@ -53,6 +53,37 @@ static int	ps_atoi(const char *src, int *result)
 	return (1);
 }
 
+int	load_space_argv(t_pushswap *ps, char *av)
+{
+	char	**tmp;
+	size_t	i;
+
+	i = 0;
+
+	if (!av)
+		return (0);
+	ft_printf("|%s|\n", av);
+	tmp = ft_strsplit(av, ' ');
+	if (!tmp)
+		return (0);
+	while (tmp[i])
+	{
+		if (!ps_atoi(tmp[i++], &(ps->top_a->next->val)))
+			return (0);
+		ps->top_a->next->prev = ps->top_a;
+		ps->top_a = ps->top_a->next;
+		ps->bot_b = ps->bot_a;
+		while (ps->bot_b != ps->top_a)
+		{
+			if (ps->bot_b->val == ps->top_a->val)
+				return (0);
+			ps->bot_b = ps->bot_b->next;
+		}
+		(ps->a)++;
+	}
+	return (1);
+}
+
 int	load_initial_stack(t_pushswap *ps, char **av, int ac)
 {
 	if (!(ps->bot_a = ft_memalloc(sizeof(t_stack)))
@@ -62,8 +93,15 @@ int	load_initial_stack(t_pushswap *ps, char **av, int ac)
 	ps->a = 1;
 	while (ac--)
 	{
-		if (!(ps->top_a->next = ft_memalloc(sizeof(t_stack)))
-		|| !(ps_atoi(av[ac], &(ps->top_a->next->val))))
+		if (!(ps->top_a->next = ft_memalloc(sizeof(t_stack))))
+			return (0);
+		if (ft_strchr(av[ac], ' '))
+		{
+			if (!(load_space_argv(ps, av[ac])))
+				return (0);
+			continue ;
+		}
+		else if (!(ps_atoi(av[ac], &(ps->top_a->next->val))))
 			return (0);
 		ps->top_a->next->prev = ps->top_a;
 		ps->top_a = ps->top_a->next;

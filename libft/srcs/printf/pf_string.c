@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 19:11:45 by aulopez           #+#    #+#             */
-/*   Updated: 2019/02/03 11:12:29 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 10:39:33 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void				pf_putwstr(t_printf *pf)
 {
 	wchar_t	*str;
 	int		clen;
-	int		wlen;
 
 	if (!(str = va_arg(pf->ap, wchar_t *)))
 	{

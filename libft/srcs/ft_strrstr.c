@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strrstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 10:29:13 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/05 12:35:46 by aulopez          ###   ########.fr       */
+/*   Created: 2018/11/14 01:22:00 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/12 16:38:25 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-
-size_t	ft_strlen(const char *s)
+char	*ft_strrstr(const char *haystack, const char *needle)
 {
-	size_t	i;
+	const char	*hs;
+	const char	*ne;
+	char		*buf;
 
-	i = 0;
-	while (*(s++))
-		i++;
-	return (i);
+	buf = 0;
+	if (!*needle)
+		return ((char*)haystack);
+	while (*haystack)
+	{
+		if (*haystack == *needle && *haystack)
+		{
+			hs = haystack;
+			ne = needle;
+			while (*(ne++) == *(hs++))
+				if (!*ne)
+					buf = (char*)haystack;
+		}
+		++haystack;
+	}
+	return (buf);
 }

@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_free_sarray.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 10:29:13 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/05 12:35:46 by aulopez          ###   ########.fr       */
+/*   Created: 2018/12/03 15:15:18 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/11 18:46:12 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <string.h>
 
-size_t	ft_strlen(const char *s)
+void	ft_free_sarray(char ***s)
 {
 	size_t	i;
 
-	i = 0;
-	while (*(s++))
-		i++;
-	return (i);
+	i = 1;
+	if (*s)
+	{
+		while ((*s)[i])
+			free((*s)[i++]);
+		free((*s)[0]);
+		free(*s);
+	}
+	*s = 0;
 }

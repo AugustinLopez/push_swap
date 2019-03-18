@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 08:40:39 by aulopez           #+#    #+#             */
-/*   Updated: 2019/02/22 13:02:07 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/12 16:16:01 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ size_t				ft_lstsize(t_list *lst);
 ** int					ft_isascii(int c);
 ** int					ft_isprint(int c);
 */
+int					ft_iswhitespace(char *s, int ignore_line_feed);
 
 /*
 ** --- Math Functions ----------------------------------------------------------
@@ -114,7 +115,7 @@ size_t				ft_lstsize(t_list *lst);
 ** --- To Functions ------------------------------------------------------------
 ** Conversion functions.
 **
-** 
+**
 ** int					ft_toupper(int c);
 ** int					ft_tolower(int c);
 */
@@ -127,11 +128,8 @@ size_t				ft_atozu(const char *src);
 ** To find information with strings.
 **
 **
-** char				*ft_strstr(const char *haystack, const char *needle);
 ** char				*ft_strnstr(const char *haystack,
 ** 						const char *needle, size_t len);
-** char				*ft_strrstr(const char *haystack, const char *needle);
-** char				*ft_strrchr(const char *s, int c);
 ** size_t			ft_strcount(const char *s, int c);
 ** int				ft_strequ(char const *s1, char const *s2);
 ** int				ft_strnequ(char const *s1, char const *s2, size_t n);
@@ -146,6 +144,10 @@ size_t				ft_wstrlen(unsigned *str);
 size_t				ft_wcharlen(unsigned wc);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strlcmp(const char *s1, const char *s2);
+char				*ft_strstr(const char *haystack, const char *needle);
+char				*ft_strrstr(const char *haystack, const char *needle);
+char				*ft_strrchr(const char *s, int c);
 
 /*
 ** --- String Set Functions ----------------------------------------------------
@@ -158,7 +160,6 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 ** void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 ** char				*ft_strmap(char const *s, char (*f)(char));
 ** char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-** char				*ft_strtrim(char const *s);
 */
 
 void				ft_strclr(char *s);
@@ -170,7 +171,11 @@ char				*ft_strcpy(char *dst, const char *src);
 char				*ft_strnew(size_t size);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_pathjoin(char const *s1, char const *s2);
 char				**ft_strsplit(char const *s, char c);
+char				**ft_strssplit(char const *s, char const *c);
+void				ft_free_sarray(char ***s);
+char				*ft_strtrim(char const *s);
 
 /*
 ** --- Other Functions ---------------------------------------------------------

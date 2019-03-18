@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlcmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 10:29:13 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/05 12:35:46 by aulopez          ###   ########.fr       */
+/*   Created: 2018/11/15 10:07:22 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/12 16:16:45 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-
-size_t	ft_strlen(const char *s)
+int	ft_strlcmp(const char *s1, const char *s2)
 {
-	size_t	i;
-
-	i = 0;
-	while (*(s++))
-		i++;
-	return (i);
+	while (*s1 == *s2 && *s1 && *s2)
+	{
+		++s1;
+		++s2;
+	}
+	if (!*s2)
+		return (0);
+	return (*(unsigned char*)s1 - *(unsigned char*)s2);
 }

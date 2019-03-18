@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2019/02/22 12:29:39 by aulopez          ###   ########.fr        #
+#    Updated: 2019/03/18 10:52:44 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +24,13 @@ __LIST=	lstnew lstdelone lstdel lstadd \
 ____TO=	atoi itoa atozu
 STRCHR=	strchr strastr strastri strchri \
 		strlen wstrlen wcharlen strcmp \
-		strncmp strnchri
+		strncmp strlcmp strnchri strstr \
+		strrstr strrchr
 STRSET=	strcat strncat strclr strcpy \
 		strdel strdup strjoin strnew \
-		strsub strsplit
-_OTHER=	gnl
+		strsub strsplit strssplit pathjoin \
+		free_sarray strtrim
+_OTHER=	gnl iswhitespace
 _LIBFT=	$(___PUT) $(___MEM) $(__LIST) $(____TO) $(STRCHR) $(STRSET) $(_OTHER)
 
 PRINTF=ft_printf pf_buffer pf_number pf_number_2 pf_other pf_parsing pf_string pf_double pf_string_2
@@ -39,7 +41,7 @@ __FTOA=f_bigint f_create_unit f_operand f_create_stack f_free_precision f_putnbr
 
 # --- 2.Path -------------------------------------------------------------------
 
-PATH_1HDR=../includes/
+PATH_1HDR=./includes/
 PATH_2HDR=./srcs/includes2/
 PATH_OBJ=./obj/
 PATH_LIB=./srcs/
@@ -56,7 +58,7 @@ OBJFTOA=$(__FTOA:%=$(PATH_OBJ)%.o)
 
 OPTION_O=-c -I$(PATH_1HDR) -I$(PATH_2HDR)
 INCLUDES=$(1ST_HEADER:%=$(PATH_1HDR)%) $(2ND_HEADER:%=$(PATH_2HDR)%)
-CC=gcc
+CC=gcc -Werror -Wall -Wextra #-pedantic -g3
 RED=\033[31m
 GREEN=\033[32m
 YELLOW=\033[33m

@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 19:11:32 by aulopez           #+#    #+#             */
-/*   Updated: 2019/02/06 15:00:12 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 10:48:43 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void				pf_itoa_quote(uintmax_t n, int b, char s[70], t_printf *pf)
 	}
 }
 
-void				pf_sign(t_printf *pf)
+int					pf_sign(t_printf *pf)
 {
 	if (pf->flag & F_NEGATIF)
 		pf_buffer_write(pf, "-", 1);
@@ -46,6 +46,7 @@ void				pf_sign(t_printf *pf)
 		pf_buffer_write(pf, "+", 1);
 	else
 		pf_buffer_write(pf, " ", 1);
+	return (0);
 }
 
 void				pf_itoa_fill(uintmax_t n, int b, char s[70], t_printf *pf)

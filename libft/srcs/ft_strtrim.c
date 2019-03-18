@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 09:25:26 by aulopez           #+#    #+#             */
-/*   Updated: 2018/11/20 12:10:57 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/11 16:10:39 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static size_t	trim_strlen(const char *s)
 	offset = 0;
 	while (*s)
 	{
-		if (*s == ' ' || *s == '\t' || *s == '\n')
+		if (*s == ' ' || (*s >= 9 && *s <= 13))
 			++offset;
 		else
 			offset = 0;
@@ -39,7 +39,7 @@ char			*ft_strtrim(char const *s)
 
 	if (!s)
 		return (0);
-	while (*s == ' ' || *s == '\t' || *s == '\n')
+	while (*s == ' ' || (*s >= 9 && *s <= 13))
 		s++;
 	len = trim_strlen(s);
 	if (!(p = ft_strnew(len)))

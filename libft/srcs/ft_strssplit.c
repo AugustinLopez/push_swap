@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*   ft_strssplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static size_t	null_prot_nbr_word(const char *s, char c)
+static size_t	null_prot_nbr_word(const char *s, const char *c)
 {
 	size_t	occurence;
 
@@ -23,35 +23,46 @@ static size_t	null_prot_nbr_word(const char *s, char c)
 		return (0);
 	occurence = 1;
 	while (*++s)
-		if (*s != c && *(s - 1) == c)
+	{
+		if (!ft_strchr(c, *s) && ft_strchr(c, *(s - 1)))
 			occurence++;
+	}
 	return (occurence);
 }
 
-static void		start_and_end(const char *s, char c, size_t *start, size_t *end)
+static void		start_and_end(const char *s, const char *c,
+								size_t *start, size_t *end)
 {
 	*start = *end;
 	while (s[*start])
 	{
-		if (s[*start] == c)
+		if (ft_strchr(c, s[*start]))
 			*start += 1;
 		else
 		{
 			*end = *start;
-			while (s[*end] && s[*end] != c)
+			while (s[*end] && !(ft_strchr(c, s[*end])))
 				*end += 1;
 			return ;
 		}
 	}
 }
 
-static char		*ft_strunchr(const char *s, int c)
+static char		*ft_strunchr(const char *s, const char *c)
 {
-	if (*s != c)
-		return ((char*)s);
-	while (*(s++))
-		if (*s != c)
+	size_t	i;
+
+	i = 0;
+	while (c[i])
+		if (*s != c[i++])
 			return ((char*)s);
+	while (*(s++))
+	{
+		i = 0;
+		while (c[i])
+			if (*s != c[i++])
+				return ((char*)s);
+	}
 	return (0);
 }
 
@@ -64,7 +75,7 @@ static char		**ft_desalloc(char ***p, size_t i)
 	return (*p);
 }
 
-char			**ft_strsplit(char const *s, char c)
+char			**ft_strssplit(char const *s, char const *c)
 {
 	size_t	len;
 	size_t	se[2];

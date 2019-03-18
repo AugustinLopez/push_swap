@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 09:58:36 by aulopez           #+#    #+#             */
-/*   Updated: 2019/02/22 12:26:38 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 10:48:27 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ static int		free_mem_and_exit(int option, t_list **neur, char **tmp,
 {
 	if (!option)
 	{
-		(tmp && *tmp) ? free(*tmp) : 0;
-		(alst && *alst) ? ft_lstdel(alst, *ft_lstfree) : 0;
+		if (tmp && *tmp)
+			free(*tmp);
+		if (alst && *alst)
+			ft_lstdel(alst, *ft_lstfree);
 		return (-1);
 	}
 	else
@@ -102,7 +104,8 @@ static int		ft_new_line(char **s, char **line, t_list **memory)
 			return (free_mem_and_exit(0, 0, 0, memory));
 		free(*s);
 		*s = temp;
-		!(*s)[0] ? ft_strdel(s) : 0;
+		if (!((*s)[0]))
+			ft_strdel(s);
 	}
 	else if ((*s)[len] == '\0')
 	{

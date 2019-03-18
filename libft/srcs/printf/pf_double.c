@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 19:08:07 by aulopez           #+#    #+#             */
-/*   Updated: 2019/02/22 12:25:28 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 10:41:37 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ static inline int	minus_edge_case(t_printf *pf, int tmp, char *str)
 void				pf_putdouble(t_printf *pf)
 {
 	char	*str;
-	int		sign;
 	int		tmp;
 
+	tmp = 0;
 	pf_load_string(pf, &str);
 	if (str && str[0] == '-' && minus_edge_case(pf, tmp, str))
 		return ;
@@ -82,5 +82,6 @@ void				pf_putdouble(t_printf *pf)
 	pf->option_padding = 0;
 	pf->padding = pf->length - pf->precision;
 	pf_padding(pf, 1);
-	str ? free(str) : 0;
+	if (str)
+		free(str);
 }
