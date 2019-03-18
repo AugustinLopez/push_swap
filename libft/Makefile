@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2019/03/18 10:52:44 by aulopez          ###   ########.fr        #
+#    Updated: 2019/03/18 15:30:14 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ OBJFTOA=$(__FTOA:%=$(PATH_OBJ)%.o)
 
 OPTION_O=-c -I$(PATH_1HDR) -I$(PATH_2HDR)
 INCLUDES=$(1ST_HEADER:%=$(PATH_1HDR)%) $(2ND_HEADER:%=$(PATH_2HDR)%)
-CC=gcc -Werror -Wall -Wextra #-pedantic -g3
+CC=gcc -Werror -Wall -Wextra -pedantic -g3
 RED=\033[31m
 GREEN=\033[32m
 YELLOW=\033[33m

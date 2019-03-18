@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:15:18 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/11 18:46:12 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 16:29:26 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ft_free_sarray(char ***s)
 	size_t	i;
 
 	i = 1;
-	if (*s)
+	if (s && *s)
 	{
-		while ((*s)[i])
+		while (**s && (*s)[i])
 			free((*s)[i++]);
 		free((*s)[0]);
 		free(*s);

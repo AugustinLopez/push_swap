@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 09:58:36 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/18 10:48:27 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 15:35:52 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int		get_from_memory(t_list **neuron, t_list **memory,
 	return (0);
 }
 
-static int		ft_new_line(char **s, char **line, t_list **memory)
+static int		ft_new_line(char **s, char **line, t_list **memory, int keep_n)
 {
 	char	*temp;
 	int		len;
@@ -98,7 +98,7 @@ static int		ft_new_line(char **s, char **line, t_list **memory)
 		len++;
 	if ((*s)[len] == '\n')
 	{
-		if (!(*line = ft_strsub(*s, 0, len)))
+		if (!(*line = ft_strsub(*s, 0, len + keep_n)))
 			return (free_mem_and_exit(0, 0, 0, memory));
 		if (!(temp = ft_strdup(*s + len + 1)))
 			return (free_mem_and_exit(0, 0, 0, memory));
@@ -116,7 +116,7 @@ static int		ft_new_line(char **s, char **line, t_list **memory)
 	return (1);
 }
 
-int				gnl(const int fd, char **line)
+int				ft_gnl(const int fd, char **line, int keep_n)
 {
 	static t_list	*memory;
 	t_list			*neur;
@@ -131,15 +131,15 @@ int				gnl(const int fd, char **line)
 			buf[ret] = '\0';
 			if (!(tmp = ft_strjoin(neur->pv, buf))
 			|| ft_strlen(buf) != (unsigned int)ret)
-				return (free_mem_and_exit(0, &neur, 0, &memory));
-			(void)free_mem_and_exit(1, 0, &tmp, &memory);
+				return (free_mem_and_exit(0, 0, 0, &memory));
+			(void)free_mem_and_exit(1, &neur, &tmp, 0);
 			if (ft_strchr(buf, '\n'))
 				break ;
 		}
 	}
 	if (ret < 0)
-		return (free_mem_and_exit(0, &neur, 0, &memory));
+		return (free_mem_and_exit(0, 0, 0, &memory));
 	if (ret == 0 && (neur->pv == 0 || ((char*)(neur->pv))[0] == 0))
 		return (ft_lstdelone_neuron(&memory, fd));
-	return (ft_new_line((char**)&(neur->pv), line, &memory));
+	return (ft_new_line((char**)&(neur->pv), line, &memory, (keep_n != 0)));
 }

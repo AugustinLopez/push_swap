@@ -6,7 +6,17 @@
 # include <limits.h>
 # include <unistd.h>
 
-enum {ERROR = -1, END = 0, JUMP, SA, SB, SS, PA, PB, RA, RB, RR, RRA, RRB, RRR};
+# define SA 1
+# define SB 2
+# define PA 3
+# define PB 4
+# define RA 5
+# define RB 6
+# define RRA 7
+# define RRB 8
+# define SS 9
+# define RR 10
+# define RRR 11
 
 typedef struct		s_stack
 {
@@ -33,6 +43,7 @@ void				ps_push(t_pushswap *ps, int option);
 void				ps_rotate(t_pushswap *ps, int option);
 void				ps_reverse_rotate(t_pushswap *ps, int option);
 void				ps_operand(t_pushswap *ps, int option, int affichage);
+void				ps_several_operand(t_pushswap *ps, int option);
 
 int					sort_little_a(t_pushswap *ps, size_t len);
 int					sort_little_b(t_pushswap *ps, size_t len);

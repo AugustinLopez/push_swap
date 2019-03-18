@@ -6,15 +6,11 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 10:17:50 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/18 14:08:05 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 16:08:06 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <pushswap.h>
-
-/*
-** Add "" and '' parsing later
-*/
 
 static int		already_sorted(t_pushswap *ps)
 {
@@ -69,7 +65,7 @@ int				main(int ac, char **av)
 
 	if (ac < 2)
 		return (0);
-	ac -= 2;
+	ac -= 1;
 	av++;
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)))
@@ -82,7 +78,6 @@ int				main(int ac, char **av)
 		sort_stack_a(&ps, ps.a);
 	squash_instruction(&ps);
 	show_instruction(ps.instruction_begin);
-	//show_list(&ps, 'a');
 	free_all_stack(&ps);
 	return (0);
 }

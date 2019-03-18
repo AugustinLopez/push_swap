@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 08:40:39 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/12 16:16:01 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/18 15:21:14 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,5 @@ char				*ft_strtrim(char const *s);
 ** Function with unique properties.
 */
 
-int					ft_gnl(const int fd, char **line);
+int					ft_gnl(const int fd, char **line, int keep_n);
 #endif

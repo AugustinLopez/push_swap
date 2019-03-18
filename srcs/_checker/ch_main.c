@@ -41,7 +41,30 @@ int			checker_clean_stdout(void)
 	return (-1);
 }
 
-int			checker_gnl(void)
+static int	checker_is_it_sorted(t_pushswap *ps)
+{
+	t_stack *stack;
+
+	if (ps->bot_b)
+	{
+		ft_putendl("KO");
+		return (-1);
+	}
+	stack = ps->top_a;
+	while (stack)
+	{
+		if (stack->prev && stack->val > stack->prev->val)
+		{
+			ft_putendl("KO");
+			return (-1);
+		}
+		stack = stack->prev;
+	}
+	ft_putendl("OK");
+	return (0);
+}
+
+/*int			checker_gnl(char *line)
 {
 	char		buf[4];
 	char		c;
@@ -67,38 +90,28 @@ int			checker_gnl(void)
 		return (checker_clean_stdout());
 	return (checker_operand(buf));
 }
+*/
 
-static int	checker_is_it_sorted(t_pushswap *ps)
+int	checker_gnl(char *line)
 {
-	t_stack *stack;
+	size_t	size;
 
-	if (ps->bot_b)
-	{
-		ft_putendl("KO");
+	size = ft_strlen(line);
+	if (3 > size || size > 4)
 		return (-1);
-	}
-	stack = ps->top_a;
-	while (stack)
-	{
-		if (stack->prev && stack->val > stack->prev->val)
-		{
-			ft_putendl("KO");
-			return (-1);
-		}
-		stack = stack->prev;
-	}
-	ft_putendl("OK");
-	return (0);
+	line[size - 1] = '\0';
+	return (checker_operand(line));
 }
 
 int	main(int ac, char **av)
 {
 	t_pushswap	ps;
 	int			operand;
+	char		*line;
 
 	if (ac < 2)
 		return (0);
-	ac -= 2;
+	ac -= 1;
 	av++;
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)))
@@ -107,14 +120,29 @@ int	main(int ac, char **av)
 		ft_putendl_fd("Error", 2);
 		return (-1);
 	}
-	while ((operand = checker_gnl()))
+	while ((operand = ft_gnl(0, &line, 1)) > 0)
 	{
+		//ft_printf("|%s\n|", line);
+		operand = checker_gnl(line);
+		free(line);
 		if (operand == -1)
+			break ;
+		ps_operand(&ps, operand, 0);
+		/*operand = checker_gnl(line);
+		if (operand == 1)
 		{
+			free_all_stack(&ps);
 			ft_putendl_fd("Error", 2);
 			return (-1);
 		}
-		ps_operand(&ps, operand, 0);
+		free(line);
+		ps_operand(&ps, operand, 0);*/
+	}
+	if (operand == -1)
+	{
+		free_all_stack(&ps);
+		ft_putendl_fd("Error", 2);
+		return (-1);
 	}
 	show_list(&ps, 'a');
 	checker_is_it_sorted(&ps);

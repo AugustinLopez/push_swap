@@ -82,7 +82,7 @@ int			sort_stack_a(t_pushswap *ps, size_t len)
 	ra = 0;
 	pb = 0;
 	i = 0;
-	if (len <= 3)
+	if (len <= 3 || (len == 4 && ps->a == 4))
 		return (sort_little_a(ps, len));
 	pivot = get_pivot('a', ps, len);
 	while (other_push_needed('a', ps, len - i, pivot) && i++ < len)

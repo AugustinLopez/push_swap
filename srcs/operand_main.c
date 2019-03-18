@@ -1,6 +1,15 @@
 # include <pushswap.h>
 # include <libft.h>
 
+void		ps_several_operand(t_pushswap *ps, int option)
+{
+	while (option)
+	{
+		ps_operand(ps, option % 10, 1);
+		option /= 10;
+	}
+}
+
 void		ps_operand(t_pushswap *ps, int option, int affichage)
 {
 	if (option == SA || option == SB || option == SS)
