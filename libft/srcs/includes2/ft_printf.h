@@ -100,7 +100,7 @@ typedef struct			s_printf
 	va_list				ap;
 	char				*format;
 	char				*pc;
-	uint32_t			flag;
+	int32_t				flag;
 	unsigned			base;
 }						t_printf;
 

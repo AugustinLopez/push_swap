@@ -34,7 +34,6 @@ int				*create_unit_neg(int exposent, int dbl_tab)
 {
 	int	*unit;
 	int	j;
-	int	stack;
 
 	if (!(unit = create_unit_neg_addentum(dbl_tab)))
 		return (0);
@@ -44,7 +43,6 @@ int				*create_unit_neg(int exposent, int dbl_tab)
 		exposent -= MIN2_EXP;
 	while (exposent++)
 	{
-		stack = 0;
 		j = 2;
 		while (j <= unit[0])
 		{

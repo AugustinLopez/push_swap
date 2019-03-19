@@ -36,14 +36,13 @@ static inline void	pf_load_string(t_printf *pf, char **str)
 	pf->precision = dot ? dot + pf->precision : pf->printed;
 }
 
-static inline int	minus_edge_case(t_printf *pf, int tmp, char *str)
+static inline int	minus_edge_case(t_printf *pf, char *str)
 {
 	if (str[1] != '0')
 	{
 		pf->flag &= ~(F_NEGATIF | F_PLUS | F_SPACE);
 		return (0);
 	}
-	tmp = pf->length - pf->precision;
 	pf->padding = pf->length - pf->precision;
 	pf->flag |= F_NEGATIF;
 	!(pf->flag & F_ZERO) ? pf_padding(pf, 0) : 0;
@@ -63,13 +62,10 @@ static inline int	minus_edge_case(t_printf *pf, int tmp, char *str)
 void				pf_putdouble(t_printf *pf)
 {
 	char	*str;
-	int		tmp;
 
-	tmp = 0;
 	pf_load_string(pf, &str);
-	if (str && str[0] == '-' && minus_edge_case(pf, tmp, str))
+	if (str && str[0] == '-' && minus_edge_case(pf, str))
 		return ;
-	tmp = pf->length - pf->precision;
 	(pf->flag & (F_NEGATIF | F_PLUS | F_SPACE)) ? --pf->length : 0;
 	pf->padding = pf->length - pf->precision;
 	!(pf->flag & F_ZERO) ? pf_padding(pf, 0) : 0;

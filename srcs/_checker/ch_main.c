@@ -103,6 +103,38 @@ int	checker_gnl(char *line)
 	return (checker_operand(line));
 }
 
+void	visualize(t_pushswap *ps, int option)
+{
+	t_stack	*elem;
+
+	elem = (option == 'a') ? ps->top_a : ps->top_b;
+	ft_printf("\n%c:", option - 32);
+	while (elem)
+	{
+		if (!elem->next && elem->prev)
+		{
+			if ((option == 'a' && elem->val < elem->prev->val)
+				|| (option == 'b' && elem->val > elem->prev->val))
+				ft_putstr(FT_GREEN);
+			else
+				ft_putstr(FT_RED);
+		}
+		else if (elem->next && ((option == 'a' && elem->next->val < elem->val)
+			|| (option == 'b' && elem->next->val > elem->val)))
+			ft_putstr(FT_GREEN);
+		else if ((option == 'b' && ps->b > 1) || (option == 'a' && ps->a > 1))
+			ft_putstr(FT_RED);
+		else
+			ft_putstr(FT_GREEN);
+		ft_printf("|%s", FT_EOC);
+		elem = elem->prev;
+	}
+}
+
+/*
+** possible optimisation : SA RA SB - SB RB SA --> SS RA | SS RB
+*/
+
 int	main(int ac, char **av)
 {
 	t_pushswap	ps;
@@ -120,6 +152,9 @@ int	main(int ac, char **av)
 		ft_putendl_fd("Error", 2);
 		return (-1);
 	}
+	visualize(&ps, 'a');
+	visualize(&ps, 'b');
+	ft_putchar('\n');
 	while ((operand = ft_gnl(0, &line, 1)) > 0)
 	{
 		//ft_printf("|%s\n|", line);
@@ -128,6 +163,9 @@ int	main(int ac, char **av)
 		if (operand == -1)
 			break ;
 		ps_operand(&ps, operand, 0);
+		visualize(&ps, 'a');
+		visualize(&ps, 'b');
+		ft_putchar('\n');
 		/*operand = checker_gnl(line);
 		if (operand == 1)
 		{
@@ -138,13 +176,15 @@ int	main(int ac, char **av)
 		free(line);
 		ps_operand(&ps, operand, 0);*/
 	}
+		ft_putchar('\n');
+
 	if (operand == -1)
 	{
 		free_all_stack(&ps);
 		ft_putendl_fd("Error", 2);
 		return (-1);
 	}
-	show_list(&ps, 'a');
+	//show_list(&ps, 'a');
 	checker_is_it_sorted(&ps);
 	free_all_stack(&ps);
 	return (0);

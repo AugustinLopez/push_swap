@@ -130,7 +130,7 @@ void				pf_putnbr_base(t_printf *pf)
 	pf->printed = 1;
 	if ((pf->flag & F_SHARP) && n)
 	{
-		pf->length -= (pf->base == 8) + (pf->base == 2 | pf->base == 16) * 2;
+		pf->length -= (pf->base == 8) + (pf->base == 2 || pf->base == 16) * 2;
 		pf->precision -= (pf->base == 8);
 	}
 	pf_itoa_base(n, pf->base, pf);
