@@ -18,6 +18,8 @@
 # define RR 10
 # define RRR 11
 
+# define CH_V 1
+
 typedef struct		s_stack
 {
 	struct s_stack	*prev;
@@ -33,7 +35,6 @@ typedef struct		s_pushswap
 	t_stack			*top_b;
 	t_stack			*instruction_begin;
 	t_stack			*instruction_end;
-	int				stop;
 	size_t			a;
 	size_t			b;
 }					t_pushswap;
@@ -42,17 +43,22 @@ void				ps_swap(t_pushswap *ps, int option);
 void				ps_push(t_pushswap *ps, int option);
 void				ps_rotate(t_pushswap *ps, int option);
 void				ps_reverse_rotate(t_pushswap *ps, int option);
-void				ps_operand(t_pushswap *ps, int option, int affichage);
-void				ps_several_operand(t_pushswap *ps, int option);
+
+int					ps_operand(t_pushswap *ps, int option, int affichage);
+int					ps_several_operand(t_pushswap *ps, int option);
+int					load_operand_stack(t_pushswap *ps, int instruction);
 
 int					sort_little_a(t_pushswap *ps, size_t len);
 int					sort_little_b(t_pushswap *ps, size_t len);
 int					sort_stack_a(t_pushswap *ps, size_t len);
+int					backtrack_stack(int option, t_pushswap *ps, size_t rr);
 
-int					squash_instruction(t_pushswap *ps);
+int					squash_operand_stack(t_pushswap *ps);
+
 void				show_list(t_pushswap *ps, int option);
 int					load_initial_stack(t_pushswap *ps, char **av, int ac);
-int					load_instruction_stack(t_pushswap *ps, int instruction);
 void				free_all_stack(t_pushswap *ps);
-int					get_pivot(int option, t_pushswap *ps, size_t len);
+void				stackdelone(t_stack **elem);
+int					get_pivot(int option, t_pushswap *ps, size_t len, size_t *error);
+int					ret_error(t_pushswap *ps);
 #endif

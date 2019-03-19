@@ -6,15 +6,13 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 16:40:01 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/18 19:01:42 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/19 16:23:19 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pushswap.h>
 
-
-
-inline static int		sort_onplace_3a(t_pushswap *ps, size_t len)
+inline static int	sort3(t_pushswap *ps, size_t len)
 {
 	int	x;
 	int	y;
@@ -24,49 +22,45 @@ inline static int		sort_onplace_3a(t_pushswap *ps, size_t len)
 	y = (len >= 2) ? ps->top_a->prev->val : 0;
 	z = (len == 3) ? ps->top_a->prev->prev->val : 0;
 	if (x > y && y > z)
-	{
-		ps_operand(ps, SA, 1);
-		ps_operand(ps, RRA, 1);
-	}
+		return (ps_operand(ps, SA, 1) && ps_operand(ps, RRA, 1));
 	else if (y > z && z > x)
-	{
-		ps_operand(ps, RRA, 1);
-		ps_operand(ps, SA, 1);
-	
-	}
+		return (ps_operand(ps, RRA, 1) && ps_operand(ps, SA, 1));
 	else if (y > x && x > z)
-		ps_operand(ps, RRA, 1);
+		return (ps_operand(ps, RRA, 1));
 	else if (x > z && z > y)
-		ps_operand(ps, RA, 1);
+		return (ps_operand(ps, RA, 1));
 	else if (z > x && x > y)
-		ps_operand(ps, SA, 1);
-	return (0);
+		return (ps_operand(ps, SA, 1));
+	return (1);
 }
 
-inline static int		sort_notonplace_3a(t_pushswap *ps, size_t len)
+inline static int	sort3_notonplace(t_pushswap *ps, size_t len)
 {
-	while (len-- > 1)
+	while (--len)
 	{
 		if (ps->top_a->val > ps->top_a->prev->val)
 		{
-			ps_operand(ps, SA, 1);
-			ps_operand(ps, RA, 1);
+			if (!ps_operand(ps, SA, 1) || !ps_operand(ps, RA, 1))
+				return (0);
 		}
-		else
-			ps_operand(ps, RA, 1);
+		else if (!ps_operand(ps, RA, 1))
+			return (0);
 	}
 	while (++len < 3)
 	{
-		ps_operand(ps, RRA, 1);
+		if (!ps_operand(ps, RRA, 1))
+			return (0);
 		if (ps->top_a && ps->top_a->val > ps->top_a->prev->val)
-			ps_operand(ps, SA, 1);
+			if (!ps_operand(ps, SA, 1))
+				return (0);
 	}
 	if (ps->top_a && ps->top_a->val > ps->top_a->prev->val)
-		ps_operand(ps, SA, 1);
-	return (0);
+		if (!ps_operand(ps, SA, 1))
+			return (0);
+	return (1);
 }
 
-inline static int		sort_onplace_4a2(int x, int y, int z, int v)
+inline static int	sort4_bis(int x, int y, int z, int v)
 {
 	if (y > z && z > x && x > v)
 		return (RA + SA * 10 + RA * 100 + RA * 1000);
@@ -93,8 +87,7 @@ inline static int		sort_onplace_4a2(int x, int y, int z, int v)
 	return (0);
 }
 
-
-inline static int		sort_onplace_4a(int x, int y, int z, int v)
+inline static int	sort4(int x, int y, int z, int v)
 {
 	if (x > y && y > z && z > v)
 		return (SA + RA * 10 + RA * 100 + SA * 1000);
@@ -120,10 +113,10 @@ inline static int		sort_onplace_4a(int x, int y, int z, int v)
 		return (RA + PB * 10 + RA * 100 + PA * 1000);
 	else if (v > x && x > z && z > y)
 		return (RRA + SA * 10 + RA * 100 + RA * 1000);
-	return (sort_onplace_4a2(x, y, z, v));
+	return (sort4_bis(x, y, z, v));
 }
 
-int		sort_little_a(t_pushswap *ps, size_t len)
+int					sort_little_a(t_pushswap *ps, size_t len)
 {
 	int	x;
 	int	y;
@@ -135,14 +128,14 @@ int		sort_little_a(t_pushswap *ps, size_t len)
 	z = (len >= 3) ? ps->top_a->prev->prev->val : 0;
 	v = (len == 4) ? ps->top_a->prev->prev->prev->val : 0;
 	if (len == 1)
-		return (0);
+		return (1);
 	else if (len == 2 && x > y)
-		ps_operand(ps, SA, 1);
+		return (ps_operand(ps, SA, 1));
 	else if (ps->a == 3 && len == 3)
-		sort_onplace_3a(ps, len);
+		return (sort3(ps, len));
 	else if (len == 3)
-		sort_notonplace_3a(ps, len);
-	else if (len == 4)
-		ps_several_operand(ps, sort_onplace_4a(x, y, z, v));
-	return (0);
+		return (sort3_notonplace(ps, len));
+	else if (ps->a == 4 && len == 4)
+		return (ps_several_operand(ps, sort4(x, y, z, v)));
+	return (1);
 }

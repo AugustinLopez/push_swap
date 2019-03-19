@@ -1,4 +1,16 @@
-# include <pushswap.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ps_pivot.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/19 15:20:40 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/19 15:40:08 by aulopez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <pushswap.h>
 
 static void	qs_swap(int *a, int *b)
 {
@@ -9,7 +21,7 @@ static void	qs_swap(int *a, int *b)
 	*b = tmp;
 }
 
-static int		qs_partition(int **array, int first, int last)
+static int	qs_partition(int **array, int first, int last)
 {
 	int pivot;
 	int low;
@@ -40,7 +52,7 @@ static void	ft_quicksort(int **array, int first, int last)
 	}
 }
 
-int		get_pivot(int option, t_pushswap *ps, size_t len)
+int			get_pivot(int option, t_pushswap *ps, size_t len, size_t *error)
 {
 	int		*x;
 	int		i;
@@ -50,9 +62,7 @@ int		get_pivot(int option, t_pushswap *ps, size_t len)
 	elem = (option == 'a') ? ps->top_a : ps->top_b;
 	x = (int*)malloc(sizeof(int) * len);
 	i = 0;
-	if (!x)
-		ps->stop = 1;
-	else
+	if (x)
 	{
 		size = 0;
 		while (elem && len--)
@@ -64,6 +74,7 @@ int		get_pivot(int option, t_pushswap *ps, size_t len)
 		i = x[size / 2];
 		free(x);
 	}
+	else
+		*error = 1;
 	return (i);
 }
-

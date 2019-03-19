@@ -1,0 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/19 14:21:45 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/19 16:42:07 by aulopez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <pushswap.h>
+
+void	show_list(t_pushswap *ps, int option)
+{
+	t_stack *elem;
+
+	if (option == 'a')
+		elem = ps->top_a;
+	else
+		elem = ps->top_b;
+	while (elem)
+	{
+		ft_printf("%c.%d\n", option, elem->val);
+		elem = elem->prev;
+	}
+}
+
+void	stackdelone(t_stack **elem)
+{
+	t_stack *tmp;
+
+	if (*elem)
+	{
+		if ((*elem)->next)
+			(*elem)->next->prev = (*elem)->prev;
+		if ((*elem)->prev)
+			(*elem)->prev->next = (*elem)->next;
+		tmp = (*elem)->next;
+		ft_memdel((void**)elem);
+		*elem = tmp;
+	}
+}
+
+int					ret_error(t_pushswap *ps)
+{
+	free_all_stack(ps);
+	ft_putendl_fd("Error", 2);
+	return (-1);
+}

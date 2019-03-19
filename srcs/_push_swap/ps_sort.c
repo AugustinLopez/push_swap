@@ -1,6 +1,19 @@
-# include <pushswap.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ps_sort.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/19 15:45:55 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/19 16:25:32 by aulopez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int	other_push_needed(int option, t_pushswap *ps, size_t len, int pivot)
+#include <pushswap.h>
+
+inline static int	other_push_needed(int option, t_pushswap *ps,
+										size_t len, int pivot)
 {
 	t_stack	*elem;
 
@@ -15,30 +28,20 @@ static int	other_push_needed(int option, t_pushswap *ps, size_t len, int pivot)
 	return (0);
 }
 
-static int	backtrack_stack(int option, t_pushswap *ps, size_t rr)
+inline static int	loop_quicksort_b(t_pushswap *ps, int pivot,
+									size_t *rb, size_t *pa)
 {
-	if (option == 'a')
+	if (ps->top_b->val > pivot && ++(*pa))
 	{
-		if (rr > ps->a / 2)
-			while (ps->a - rr++)
-				ps_operand(ps, RA, 1);
-		else
-			while (rr--)
-				ps_operand(ps, RRA, 1);
+		if (!ps_operand(ps, PA, 1))
+			return (0);
 	}
-	else if (option == 'b')
-	{
-		if (rr > ps->b / 2)
-			while (ps->b - rr++)
-				ps_operand(ps, RB, 1);
-		else
-			while (rr--)
-				ps_operand(ps, RRB, 1);
-	}
-	return (0);
+	else if (++(*rb) && !ps_operand(ps, RB, 1))
+		return (0);
+	return (1);
 }
 
-static int	sort_stack_b(t_pushswap *ps, size_t len)
+inline static int	sort_stack_b(t_pushswap *ps, size_t len)
 {
 	int		pivot;
 	size_t	rb;
@@ -48,60 +51,59 @@ static int	sort_stack_b(t_pushswap *ps, size_t len)
 	rb = 0;
 	pa = 0;
 	i = 0;
-	if (len <= 3 || (len == 4 && ps->b == 4))
+	if (len <= 3)
 		return (sort_little_b(ps, len));
-	pivot = get_pivot('b', ps, len);
+	if (!(pivot = get_pivot('b', ps, len, &i)) && i)
+		return (0);
 	while (other_push_needed('b', ps, len - i, pivot) && i++ < len)
-	{
-		if (ps->top_b->val > pivot)
-		{
-			pa++;
-			ps_operand(ps, PA, 1);
-		}
-		else
-		{
-			rb++;
-			ps_operand(ps, RB, 1);
-		}
-	}
-	sort_stack_a(ps, pa);
-	backtrack_stack('b', ps, rb);
-	sort_stack_b(ps, len - pa);
-	while (pa--)
-		ps_operand(ps, PB, 1);
-	return (0);
+		if (!loop_quicksort_b(ps, pivot, &rb, &pa))
+			return (0);
+	if (!sort_stack_a(ps, pa)
+		|| !backtrack_stack('b', ps, rb)
+		|| !sort_stack_b(ps, len - pa))
+		return (0);
+	while (ps->a && pa--)
+		if (!ps_operand(ps, PB, 1))
+			return (0);
+	return (1);
 }
 
-int			sort_stack_a(t_pushswap *ps, size_t len)
+inline static int	loop_quicksort_a(t_pushswap *ps, int pivot,
+									size_t *ra, size_t *pb)
+{
+	if (ps->top_a->val < pivot && ++(*pb))
+	{
+		if (!ps_operand(ps, PB, 1))
+			return (0);
+	}
+	else if (++(*ra) && !ps_operand(ps, RA, 1))
+		return (0);
+	return (1);
+}
+
+int					sort_stack_a(t_pushswap *ps, size_t len)
 {
 	int		pivot;
 	size_t	ra;
 	size_t	pb;
 	size_t	i;
 
+	i = 0;
 	ra = 0;
 	pb = 0;
-	i = 0;
 	if (len <= 3 || (len == 4 && ps->a == 4))
 		return (sort_little_a(ps, len));
-	pivot = get_pivot('a', ps, len);
+	if (!(pivot = get_pivot('a', ps, len, &i)) && i)
+		return (0);
 	while (other_push_needed('a', ps, len - i, pivot) && i++ < len)
-	{
-		if (ps->top_a->val < pivot)
-		{
-			pb++;
-			ps_operand(ps, PB, 1);
-		}
-		else
-		{
-			ra++;
-			ps_operand(ps, RA, 1);
-		}
-	}
-	backtrack_stack('a', ps, ra);
-	sort_stack_a(ps, len - pb);
-	sort_stack_b(ps, pb);
-	while (pb--)
-		ps_operand(ps, PA, 1);
-	return (0);
+		if (!loop_quicksort_a(ps, pivot, &ra, &pb))
+			return (0);
+	if (!backtrack_stack('a', ps, ra)
+		|| !sort_stack_a(ps, len - pb)
+		|| !sort_stack_b(ps, pb))
+		return (0);
+	while (ps->b && pb--)
+		if (!ps_operand(ps, PA, 1))
+			return (0);
+	return (1);
 }

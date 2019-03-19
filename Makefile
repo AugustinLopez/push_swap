@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/03/18 09:56:36 by aulopez          ###   ########.fr        #
+#    Updated: 2019/03/19 16:22:05 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ NAME_2=push_swap
 # --- 1.Source/Header ----------------------------------------------------------
 
 SRC_CHECKER=ch_main
-SRC_PUSHSWAP=ps_main ps_pivot ps_sort ps_sort_only_a ps_sort_only_b ps_instruction
-SRC_BOTH=operand_main operand_p operand_rr_r_s handle_stack
+SRC_PUSHSWAP=ps_main ps_pivot ps_sort ps_sort_only_a ps_sort_only_b ps_instruction ps_backtrack
+SRC_BOTH=operand_main operand_p operand_rr_r_s handle_stack utils
 HDR=libft.h pushswap.h
 
 # --- 2.Path -------------------------------------------------------------------

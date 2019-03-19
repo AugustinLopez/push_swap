@@ -6,78 +6,77 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 10:17:50 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/18 16:08:06 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/19 16:42:21 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pushswap.h>
+#include <pushswap.h>
 
-static int		already_sorted(t_pushswap *ps)
+inline static int	already_sorted(t_pushswap *ps, int option)
 {
 	t_stack	*tmp;
 
-	tmp = ps->top_a;
+	tmp = (option == 'a') ? ps->top_a : ps->top_b;
 	while (tmp)
 	{
-		if (tmp->prev && tmp->prev->val < tmp->val)
+		if (!tmp->prev)
+			return (0);
+		else if (option == 'a' && tmp->prev->val < tmp->val)
+			return (0);
+		else if (option == 'b' && tmp->prev->val > tmp->val)
 			return (0);
 		tmp = tmp->prev;
 	}
 	return (1);
 }
 
-void	show_instruction(t_stack *instruction)
+inline static void	show_operand(int operand)
 {
-	t_stack *elem;
-
-	elem = instruction;
-	while (elem)
-	{
-		if (elem->val == SA)
-			ft_putendl("sa");
-		else if (elem->val == SB)
-			ft_putendl("sb");
-		else if (elem->val == SS)
-			ft_putendl("ss");
-		else if (elem->val == PA)
-			ft_putendl("pa");
-		else if (elem->val == PB)
-			ft_putendl("pb");
-		else if (elem->val == RA)
-			ft_putendl("ra");
-		else if (elem->val == RB)
-			ft_putendl("rb");
-		else if (elem->val == RR)
-			ft_putendl("rr");
-		else if (elem->val == RRA)
-			ft_putendl("rra");
-		else if (elem->val == RRB)
-			ft_putendl("rrb");
-		else if (elem->val == RRR)
-			ft_putendl("rrr");
-		elem = elem->next;
-	}
+	if (operand == SA)
+		ft_putendl("sa");
+	else if (operand == SB)
+		ft_putendl("sb");
+	else if (operand == SS)
+		ft_putendl("ss");
+	else if (operand == PA)
+		ft_putendl("pa");
+	else if (operand == PB)
+		ft_putendl("pb");
+	else if (operand == RA)
+		ft_putendl("ra");
+	else if (operand == RB)
+		ft_putendl("rb");
+	else if (operand == RR)
+		ft_putendl("rr");
+	else if (operand == RRA)
+		ft_putendl("rra");
+	else if (operand == RRB)
+		ft_putendl("rrb");
+	else if (operand == RRR)
+		ft_putendl("rrr");
 }
 
-int				main(int ac, char **av)
+int					main(int ac, char **av)
 {
 	t_pushswap	ps;
+	t_stack		*elem;
 
-	if (ac < 2)
+	if (ac-- < 2)
 		return (0);
-	ac -= 1;
 	av++;
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)))
+		return (ret_error(&ps));
+	if (!(already_sorted(&ps, 'a')))
+		if (!sort_stack_a(&ps, ps.a))
+			return (ret_error(&ps));
+	squash_operand_stack(&ps);
+	elem = ps.instruction_begin;
+	while (elem)
 	{
-		free_all_stack(&ps);
-		ft_putendl_fd("Error", 2);
-		return (-1);
+		show_operand(elem->val);
+		elem = elem->next;
 	}
-	if (!(already_sorted(&ps)))
-		sort_stack_a(&ps, ps.a);
-	squash_instruction(&ps);
-	show_instruction(ps.instruction_begin);
 	free_all_stack(&ps);
 	return (0);
 }
