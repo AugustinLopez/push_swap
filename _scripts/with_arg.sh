@@ -1,2 +1,2 @@
-./push_swap "$@" | ./checker "$@"
+./push_swap "$@" | ./checker -cv "$@"
 ./push_swap "$@" | wc -l

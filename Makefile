@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/03/22 09:43:55 by aulopez          ###   ########.fr        #
+#    Updated: 2019/03/22 15:28:10 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC_PUSHSWAP=ps_main \
 			 ps_pivot \
 			 ps_squash_instruction \
 			 sort1 \
+			 sort2 \
 			 sort1_a \
 			 sort1_b \
 			 sort1_backtrack

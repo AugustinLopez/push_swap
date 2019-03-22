@@ -20,6 +20,10 @@
 # define RRR 11
 
 # define CH_V 1
+# define CH_C 2
+# define CH_S 4
+# define CH_F 8
+# define CH_I 16
 
 typedef struct		s_stack
 {
@@ -40,6 +44,7 @@ typedef struct		s_pushswap
 	size_t			b;
 	int				max;
 	int				min;
+	int				abs_min;
 }					t_pushswap;
 
 void				ps_swap(t_pushswap *ps, int option);
@@ -54,6 +59,7 @@ int					load_operand_stack(t_pushswap *ps, int instruction);
 int					sort_little_a(t_pushswap *ps, size_t len);
 int					sort_little_b(t_pushswap *ps, size_t len);
 int					sort_stack_a(t_pushswap *ps, size_t len);
+int					sort_stack_c(t_pushswap *ps, size_t len);
 int					backtrack_stack(int option, t_pushswap *ps, size_t rr);
 
 int					squash_operand_stack(t_pushswap *ps);

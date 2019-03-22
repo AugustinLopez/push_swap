@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 14:21:45 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/22 12:38:51 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/22 14:30:32 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	stackdel(t_stack **elem)
 int					ret_error(t_pushswap *ps)
 {
 	free_data_stack(ps);
+	stackdel(&(ps->instruction_begin));
 	ft_putendl_fd("Error", 2);
 	return (-1);
 }

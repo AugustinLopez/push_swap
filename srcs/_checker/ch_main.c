@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:36:57 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/22 12:38:49 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/22 16:04:28 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	choose_color(int option, t_pushswap *ps, t_stack *elem, char *oper)
 	}
 }
 
-void	visualize(t_pushswap *ps, char *oper)
+void	visualize(t_pushswap *ps, char *oper, int flags)
 {
 	size_t	top;
 	size_t	decal;
@@ -102,7 +102,8 @@ void	visualize(t_pushswap *ps, char *oper)
 	{
 		if (top > ps->a)
 		{
-			choose_color('b', ps, bbb, oper);
+			if (flags & CH_C)
+				choose_color('b', ps, bbb, oper);
 			ft_printf("%*c   ", decal + ps->max, ' ');
 			ft_printf("%*d %#*c\n", decal, bbb->val, bbb->val, '|');
 			ft_putstr(FT_EOC);
@@ -110,17 +111,20 @@ void	visualize(t_pushswap *ps, char *oper)
 		}
 		else if (top > ps->b)
 		{
-			choose_color('a', ps, aaa, oper);
+			if (flags & CH_C)
+				choose_color('a', ps, aaa, oper);
 			ft_printf("%-*d %#*c\n", decal, aaa->val, aaa->val, '|');
 			ft_putstr(FT_EOC);
 			aaa = aaa->prev;
 		}
 		else
 		{
-			choose_color('a', ps, aaa, oper);
+			if (flags & CH_C)
+				choose_color('a', ps, aaa, oper);
 			ft_printf("%-*d %#*c%#*c", decal, aaa->val, aaa->val, '|', ps->max - aaa->val + 1, ' ');
 			ft_putstr(FT_EOC);
-			choose_color('b', ps, bbb, oper);
+			if (flags & CH_C)
+				choose_color('b', ps, bbb, oper);
 			ft_printf(" %*d %#*c\n", decal, bbb->val, bbb->val, '|');
 			ft_putstr(FT_EOC);
 			aaa = aaa->prev;
@@ -133,12 +137,19 @@ void	visualize(t_pushswap *ps, char *oper)
 
 void	visualize_helper(t_pushswap *ps, int flags, char *oper)
 {
+	if (ps->min != 1)
+		flags &= ~CH_V;
 	if (flags & CH_V)
 	{
-		visualize(ps, oper);
+		visualize(ps, oper, flags);
 		if (oper)
 			ft_printf("Operation is : %s\n", oper);
-		usleep(50000);
+		if (flags & CH_S)
+			usleep(200000);
+		else if (flags & CH_F)
+			usleep(5000);
+		else if (!(flags & CH_I))
+			usleep(50000);
 	}
 }
 
@@ -167,7 +178,7 @@ int	ch_available_option(char *av, int *flags)
 
 	while (*(++av))
 	{
-		if (!(i = ft_strchri("v", av[0])))
+		if (!(i = ft_strchri("vcSFI", av[0])))
 			return (0);
 		*flags |= (1 << (i - 1));
 	}
@@ -189,6 +200,8 @@ int	ch_parsing(int ac, char **av, int *flags)
 		if (!ch_available_option(av[i], flags))
 			return (0);
 	}
+	if (*flags)
+		*flags |= CH_V;
 	return (i);
 }
 
@@ -198,18 +211,18 @@ int	main(int ac, char **av)
 	int			operand;
 	char		*line;
 	int			flags;
-	int			option;
 
 	flags = 0;
-	option = ch_parsing(ac, av, &flags);
-	ft_printf("%d\n", option);
-	if (ac - option < 1)
+	operand = ch_parsing(ac, av, &flags);
+	if (ac - operand < 1)
 		return (0);
-	ac -= option;
-	av += option;
+	ac -= operand;
+	av += operand;
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)))
 		return (ret_error(&ps));
+	if (ps.min != 1 || ps.max != ac || ps.max > 500)
+		flags &= ~CH_V;
 	visualize_helper(&ps, flags, 0);
 	while ((operand = ft_gnl(0, &line, 1)) > 0)
 		if (checker_gnl(&ps, line, flags) == -1)
@@ -221,5 +234,6 @@ int	main(int ac, char **av)
 	else
 		ft_putendl("KO");
 	free_data_stack(&ps);
+	stackdel(&(ps.instruction_begin));
 	return (-1 * operand);
 }
