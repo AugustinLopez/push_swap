@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/03/19 16:22:05 by aulopez          ###   ########.fr        #
+#    Updated: 2019/03/22 09:43:55 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,13 @@ NAME_2=push_swap
 # --- 1.Source/Header ----------------------------------------------------------
 
 SRC_CHECKER=ch_main
-SRC_PUSHSWAP=ps_main ps_pivot ps_sort ps_sort_only_a ps_sort_only_b ps_instruction ps_backtrack
+SRC_PUSHSWAP=ps_main \
+			 ps_pivot \
+			 ps_squash_instruction \
+			 sort1 \
+			 sort1_a \
+			 sort1_b \
+			 sort1_backtrack
 SRC_BOTH=operand_main operand_p operand_rr_r_s handle_stack utils
 HDR=libft.h pushswap.h
 
@@ -64,6 +70,7 @@ EOC=\033[0m
 all: $(NAME_1) $(NAME_2)
 
 $(NAME_1): $(OBJ_BOTH) $(OBJ_CHECKER)
+	@printf "\r%50s" " "
 	@printf "\r$(YELLOW)Checking library:$(EOC)            "
 	@make -C $(PATH_LIB) >> /dev/null
 	@printf "$(GREEN)$(BOLD)Done.$(EOC)\n"
@@ -72,6 +79,7 @@ $(NAME_1): $(OBJ_BOTH) $(OBJ_CHECKER)
 	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 $(NAME_2): $(OBJ_BOTH) $(OBJ_PUSHSWAP)
+	@printf "\r%50s" " "
 	@printf "\r$(YELLOW)Checking library:$(EOC)            "
 	@make -C $(PATH_LIB) >> /dev/null
 	@printf "$(GREEN)$(BOLD)Done.$(EOC)\n"
@@ -80,15 +88,18 @@ $(NAME_2): $(OBJ_BOTH) $(OBJ_PUSHSWAP)
 	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 $(PATH_OBJ_B)%.o:$(PATH_SRC_B)%.c $(INCLUDES)
-	@printf "\r$(CYAN)Creating %-25s$(EOC)" "$@$ "
+	@printf "\r%50s" " "
+	@printf "\r$(CYAN)Creating %-35s$(EOC)" "$@$ "
 	@$(OPTION_O) $< -o $@
 
 $(PATH_OBJ_C)%.o:$(PATH_SRC_C)%.c $(INCLUDES)
-	@printf "\r$(PURPLE)Creating %-25s$(EOC)" "$@$ "
+	@printf "\r%50s" " "
+	@printf "\r$(PURPLE)Creating $@$ $(EOC)"
 	@$(OPTION_O) $< -o $@
 
 $(PATH_OBJ_P)%.o:$(PATH_SRC_P)%.c $(INCLUDES)
-	@printf "\r$(BLUE)Creating %-25s$(EOC)" "$@$ "
+	@printf "\r%50s" " "
+	@printf "\r$(BLUE)Creating $@$ $(EOC)"
 	@$(OPTION_O) $< -o $@
 
 onlylib:
@@ -97,22 +108,22 @@ onlylib:
 	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 fcleanlib:
-	@printf "$(YELLOW)Removing library: $(EOC)           "
+	@printf "$(RED)Removing library: $(EOC)           "
 	@make -C $(PATH_LIB) fclean > /dev/null
 	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 cleanlib:
-	@printf "$(YELLOW)Deleting library objects:$(EOC)    "
+	@printf "$(RED)Deleting library objects:$(EOC)    "
 	@make -C $(PATH_LIB) clean > /dev/null
 	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 clean: cleanlib
-	@printf "$(YELLOW)Deleting project objects:$(EOC)    "
+	@printf "$(RED)Deleting project objects:$(EOC)    "
 	@rm -f $(OBJ_CHECKER) $(OBJ_PUSHSWAP) $(OBJ_BOTH)
 	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 fclean: clean fcleanlib
-	@printf "$(YELLOW)Deleting executables:$(EOC)        "
+	@printf "$(RED)Removing executables:$(EOC)        "
 	@rm -f $(NAME_1) $(NAME_2)
 	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 

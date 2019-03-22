@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>
+# include <time.h>
 
 # define SA 1
 # define SB 2
@@ -37,6 +38,8 @@ typedef struct		s_pushswap
 	t_stack			*instruction_end;
 	size_t			a;
 	size_t			b;
+	int				max;
+	int				min;
 }					t_pushswap;
 
 void				ps_swap(t_pushswap *ps, int option);
@@ -63,4 +66,5 @@ void				stackdelone(t_stack **elem);
 void				stackdel(t_stack **elem);
 int					get_pivot(int option, t_pushswap *ps, size_t len, size_t *error);
 int					ret_error(t_pushswap *ps);
+void				find_max_min(t_stack *elem, int *max, int *min);
 #endif

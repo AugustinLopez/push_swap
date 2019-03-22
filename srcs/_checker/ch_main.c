@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:36:57 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/19 17:01:48 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/22 12:38:49 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,94 @@ inline static int	checker_is_it_sorted(t_pushswap *ps)
 	return (1);
 }
 
-inline static int	checker_gnl(t_pushswap *ps, char *line)
+void	choose_color(int option, t_pushswap *ps, t_stack *elem, char *oper)
+{
+	if (oper && option == 'a' && ps->a)
+	{
+		if ((!ft_strcmp(oper, "sa") || !ft_strcmp(oper, "ss")) && (elem == ps->top_a || elem == ps->top_a->prev))
+			ft_putstr(FT_YELLOW);
+		else if ((!ft_strcmp(oper, "ra") || !ft_strcmp(oper, "rr")))
+			ft_putstr(FT_GREEN);
+		else if ((!ft_strcmp(oper, "rra") || !ft_strcmp(oper, "rrr")))
+			ft_putstr(FT_RED);
+		else if (!ft_strcmp(oper, "pa") && elem == ps->top_a)
+			ft_putstr(FT_CYAN);
+	}
+	else if (oper && option == 'b' && ps->b)
+	{
+		if ((!ft_strcmp(oper, "sb") || !ft_strcmp(oper, "ss")) && (elem == ps->top_b || elem == ps->top_b->prev))
+			ft_putstr(FT_YELLOW);
+		else if ((!ft_strcmp(oper, "rb") || !ft_strcmp(oper, "rr")))
+			ft_putstr(FT_GREEN);
+		else if ((!ft_strcmp(oper, "rrb") || !ft_strcmp(oper, "rrr")))
+			ft_putstr(FT_RED);
+		else if (!ft_strcmp(oper, "pb") && elem == ps->top_b)
+			ft_putstr(FT_CYAN);
+	}
+}
+
+void	visualize(t_pushswap *ps, char *oper)
+{
+	size_t	top;
+	size_t	decal;
+	t_stack *aaa;
+	t_stack *bbb;
+
+	decal = ft_nprintf("%d", ps->max);
+	write(1, "\n", 1);
+	top = ps->a + ps->b;
+	while (top > ps->a && top > ps->b)
+	{
+		write(1, "\n", 1);
+		top--;
+	}
+	aaa = ps->top_a;
+	bbb = ps->top_b;
+	while (top)
+	{
+		if (top > ps->a)
+		{
+			choose_color('b', ps, bbb, oper);
+			ft_printf("%*c   ", decal + ps->max, ' ');
+			ft_printf("%*d %#*c\n", decal, bbb->val, bbb->val, '|');
+			ft_putstr(FT_EOC);
+			bbb = bbb->prev;
+		}
+		else if (top > ps->b)
+		{
+			choose_color('a', ps, aaa, oper);
+			ft_printf("%-*d %#*c\n", decal, aaa->val, aaa->val, '|');
+			ft_putstr(FT_EOC);
+			aaa = aaa->prev;
+		}
+		else
+		{
+			choose_color('a', ps, aaa, oper);
+			ft_printf("%-*d %#*c%#*c", decal, aaa->val, aaa->val, '|', ps->max - aaa->val + 1, ' ');
+			ft_putstr(FT_EOC);
+			choose_color('b', ps, bbb, oper);
+			ft_printf(" %*d %#*c\n", decal, bbb->val, bbb->val, '|');
+			ft_putstr(FT_EOC);
+			aaa = aaa->prev;
+			bbb = bbb->prev;
+		}
+		top--;
+	}
+}
+
+
+void	visualize_helper(t_pushswap *ps, int flags, char *oper)
+{
+	if (flags & CH_V)
+	{
+		visualize(ps, oper);
+		if (oper)
+			ft_printf("Operation is : %s\n", oper);
+		usleep(50000);
+	}
+}
+
+inline static int	checker_gnl(t_pushswap *ps, char *line, int flags)
 {
 	size_t	size;
 	int		i;
@@ -65,39 +152,13 @@ inline static int	checker_gnl(t_pushswap *ps, char *line)
 		return (-1);
 	line[size - 1] = '\0';
 	i = checker_operand(line);
-	free(line);
 	if (i != -1)
-		ps_operand(ps, i, 0);
-	return (i);
-}
-
-void	visualize(int option, t_pushswap *ps)
-{
-	t_stack	*elem;
-
-	elem = (option == 'a') ? ps->top_a : ps->top_b;
-	ft_printf("%c:", option - 32);
-	while (elem)
 	{
-		if (!elem->next && elem->prev)
-		{
-			if ((option == 'a' && elem->val < elem->prev->val)
-				|| (option == 'b' && elem->val > elem->prev->val))
-				ft_putstr(FT_GREEN);
-			else
-				ft_putstr(FT_RED);
-		}
-		else if (elem->next && ((option == 'a' && elem->next->val < elem->val)
-			|| (option == 'b' && elem->next->val > elem->val)))
-			ft_putstr(FT_GREEN);
-		else if ((option == 'b' && ps->b > 1) || (option == 'a' && ps->a > 1))
-			ft_putstr(FT_RED);
-		else
-			ft_putstr(FT_GREEN);
-		ft_printf("|%s", FT_EOC);
-		elem = elem->prev;
+		ps_operand(ps, i, 0);
+		visualize_helper(ps, flags, line);
 	}
-	ft_putchar('\n');
+	free(line);
+	return (i);
 }
 
 int	ch_available_option(char *av, int *flags)
@@ -110,7 +171,7 @@ int	ch_available_option(char *av, int *flags)
 			return (0);
 		*flags |= (1 << (i - 1));
 	}
-	return (i);
+	return (1);
 }
 
 int	ch_parsing(int ac, char **av, int *flags)
@@ -123,7 +184,7 @@ int	ch_parsing(int ac, char **av, int *flags)
 	{
 		if (av[i][1] == '-' && !av[i][2])
 			return (i + 1);
-		if (av[i][0] == '-' && ('0' <= av[i][1] || av[i][1] <= '9'))
+		if (av[i][0] == '-' && ('0' <= av[i][1] && av[i][1] <= '9'))
 			return (i);
 		if (!ch_available_option(av[i], flags))
 			return (0);
@@ -136,16 +197,22 @@ int	main(int ac, char **av)
 	t_pushswap	ps;
 	int			operand;
 	char		*line;
+	int			flags;
+	int			option;
 
-	if (ac < 2)
+	flags = 0;
+	option = ch_parsing(ac, av, &flags);
+	ft_printf("%d\n", option);
+	if (ac - option < 1)
 		return (0);
-	ac -= 1;
-	av++;
+	ac -= option;
+	av += option;
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)))
 		return (ret_error(&ps));
+	visualize_helper(&ps, flags, 0);
 	while ((operand = ft_gnl(0, &line, 1)) > 0)
-		if (checker_gnl(&ps, line) == -1)
+		if (checker_gnl(&ps, line, flags) == -1)
 			return (ret_error(&ps));
 	if (operand == -1)
 		return (ret_error(&ps));
@@ -153,7 +220,6 @@ int	main(int ac, char **av)
 		ft_putendl("OK");
 	else
 		ft_putendl("KO");
-	visualize('a', &ps);
 	free_data_stack(&ps);
 	return (-1 * operand);
 }

@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 14:21:45 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/19 16:42:07 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/22 12:38:51 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,24 @@ int					ret_error(t_pushswap *ps)
 	free_data_stack(ps);
 	ft_putendl_fd("Error", 2);
 	return (-1);
+}
+
+void				find_max_min(t_stack *elem, int *max, int *min)
+{
+	t_stack *tmp;
+
+	*max = INT_MIN;
+	*min = INT_MAX;
+	if (elem)
+	{
+		tmp = elem;
+		while (tmp)
+		{
+			if (tmp->val > *max)
+				*max = tmp->val;
+			if (tmp->val < *min)
+				*min = tmp->val;
+			tmp = tmp->prev;
+		}
+	}
 }

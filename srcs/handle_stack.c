@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 16:37:07 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/19 14:25:18 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/22 11:03:35 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int					load_initial_stack(t_pushswap *ps, char **av, int ac)
 		if (i == -1)
 			return (0);
 	}
+	find_max_min((ps->top_a), &(ps->max), &(ps->min));
 	ps->bot_b = NULL;
 	return (1);
 }
