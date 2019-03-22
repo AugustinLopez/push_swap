@@ -154,6 +154,6 @@ int	main(int ac, char **av)
 	else
 		ft_putendl("KO");
 	visualize('a', &ps);
-	free_all_stack(&ps);
+	free_data_stack(&ps);
 	return (-1 * operand);
 }

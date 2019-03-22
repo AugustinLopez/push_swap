@@ -60,6 +60,7 @@ int					main(int ac, char **av)
 {
 	t_pushswap	ps;
 	t_stack		*elem;
+	t_stack		*memory;
 
 	if (ac-- < 2)
 		return (0);
@@ -71,12 +72,20 @@ int					main(int ac, char **av)
 		if (!sort_stack_a(&ps, ps.a))
 			return (ret_error(&ps));
 	squash_operand_stack(&ps);
+	free_data_stack(&ps);
+	memory = ps.instruction_begin;
 	elem = ps.instruction_begin;
+	ps.instruction_begin = NULL;
 	while (elem)
 	{
 		show_operand(elem->val);
 		elem = elem->next;
 	}
-	free_all_stack(&ps);
+	elem = NULL;
+/*	if ((load_initial_stack(&ps, av, ac)))
+		if (!(already_sorted(&ps, 'a')))
+			if (backtrack_sort(&ps))
+				elem = ps.instruction_begin;*/
+	stackdel(&memory);
 	return (0);
 }

@@ -57,8 +57,10 @@ int					squash_operand_stack(t_pushswap *ps);
 
 void				show_list(t_pushswap *ps, int option);
 int					load_initial_stack(t_pushswap *ps, char **av, int ac);
-void				free_all_stack(t_pushswap *ps);
+void				free_data_stack(t_pushswap *ps);
+void				free_instruction_stack(t_pushswap *ps);
 void				stackdelone(t_stack **elem);
+void				stackdel(t_stack **elem);
 int					get_pivot(int option, t_pushswap *ps, size_t len, size_t *error);
 int					ret_error(t_pushswap *ps);
 #endif

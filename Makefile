@@ -64,52 +64,57 @@ EOC=\033[0m
 all: $(NAME_1) $(NAME_2)
 
 $(NAME_1): $(OBJ_BOTH) $(OBJ_CHECKER)
-	@echo "$(YELLOW)Checking library... $(EOC)"
+	@printf "\r$(YELLOW)Checking library:$(EOC)            "
 	@make -C $(PATH_LIB) >> /dev/null
-	@echo "$(YELLOW)Compiling $(NAME_1)...$(EOC)"
+	@printf "$(GREEN)$(BOLD)Done.$(EOC)\n"
+	@printf "$(YELLOW)Compiling $(NAME_1):$(EOC)           "
 	@$(OPTION_C1) $@ $(OBJ_CHECKER) $(OBJ_BOTH) $(OPTION_C2)
-	@echo "$(GREEN)Done$(EOC)"
+	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 $(NAME_2): $(OBJ_BOTH) $(OBJ_PUSHSWAP)
-	@echo "$(YELLOW)Checking library... $(EOC)"
+	@printf "\r$(YELLOW)Checking library:$(EOC)            "
 	@make -C $(PATH_LIB) >> /dev/null
-	@echo "$(YELLOW)Compiling $(NAME_2)...$(EOC)"
+	@printf "$(GREEN)$(BOLD)Done.$(EOC)\n"
+	@printf "$(YELLOW)Compiling $(NAME_2):$(EOC)         "
 	@$(OPTION_C1) $@ $(OBJ_PUSHSWAP) $(OBJ_BOTH) $(OPTION_C2)
-	@echo "$(GREEN)Done$(EOC)"
+	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 $(PATH_OBJ_B)%.o:$(PATH_SRC_B)%.c $(INCLUDES)
-	@echo "$(CYAN)Creating $@$(EOC)"
+	@printf "\r$(CYAN)Creating %-25s$(EOC)" "$@$ "
 	@$(OPTION_O) $< -o $@
 
 $(PATH_OBJ_C)%.o:$(PATH_SRC_C)%.c $(INCLUDES)
-	@echo "$(PURPLE)Creating $@$(EOC)"
+	@printf "\r$(PURPLE)Creating %-25s$(EOC)" "$@$ "
 	@$(OPTION_O) $< -o $@
 
 $(PATH_OBJ_P)%.o:$(PATH_SRC_P)%.c $(INCLUDES)
-	@echo "$(BLUE)Creating $@$(EOC)"
+	@printf "\r$(BLUE)Creating %-25s$(EOC)" "$@$ "
 	@$(OPTION_O) $< -o $@
 
 onlylib:
-	@echo "$(YELLOW)Updating library... $(EOC)"
+	@echo "$(YELLOW)Updating library:$(EOC)              "
 	@make -C $(PATH_LIB) >> /dev/null
-	@echo "$(GREEN)Done$(EOC)"
+	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 fcleanlib:
-	@echo "$(PURPLE)Removing library... $(EOC)"
+	@printf "$(YELLOW)Removing library: $(EOC)           "
 	@make -C $(PATH_LIB) fclean > /dev/null
+	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 cleanlib:
-	@echo "$(BLUE)Cleaning library... $(EOC)"
+	@printf "$(YELLOW)Deleting library objects:$(EOC)    "
 	@make -C $(PATH_LIB) clean > /dev/null
+	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 clean: cleanlib
-	@echo "$(BLUE)Deleting object files...$(EOC)"
+	@printf "$(YELLOW)Deleting project objects:$(EOC)    "
 	@rm -f $(OBJ_CHECKER) $(OBJ_PUSHSWAP) $(OBJ_BOTH)
+	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 fclean: clean fcleanlib
-	@echo "$(PURPLE)Deleting $(NAME_1)...$(EOC)"
+	@printf "$(YELLOW)Deleting executables:$(EOC)        "
 	@rm -f $(NAME_1) $(NAME_2)
-	@echo "$(GREEN)Done$(EOC)"
+	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 re: fclean all
 

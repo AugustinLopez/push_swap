@@ -12,7 +12,7 @@
 
 #include <pushswap.h>
 
-void				free_all_stack(t_pushswap *ps)
+void				free_data_stack(t_pushswap *ps)
 {
 	t_stack	*stack;
 
@@ -29,13 +29,6 @@ void				free_all_stack(t_pushswap *ps)
 		stack = stack->prev;
 		free(ps->top_b);
 		ps->top_b = stack;
-	}
-	stack = ps->instruction_begin;
-	while (stack)
-	{
-		stack = stack->next;
-		free(ps->instruction_begin);
-		ps->instruction_begin = stack;
 	}
 }
 

@@ -43,9 +43,25 @@ void	stackdelone(t_stack **elem)
 	}
 }
 
+void	stackdel(t_stack **elem)
+{
+	t_stack *tmp;
+
+	if (*elem)
+	{
+		tmp = *elem;
+		while (tmp->next)
+		{
+			tmp = (*elem)->next;
+			free(*elem);
+			*elem = tmp;
+		}
+	}
+}
+
 int					ret_error(t_pushswap *ps)
 {
-	free_all_stack(ps);
+	free_data_stack(ps);
 	ft_putendl_fd("Error", 2);
 	return (-1);
 }

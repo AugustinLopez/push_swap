@@ -64,13 +64,9 @@ int					sort_little_b(t_pushswap *ps, size_t len)
 {
 	int	x;
 	int	y;
-	int	z;
-	int	v;
 
 	x = ps->top_b->val;
 	y = (len >= 2) ? ps->top_b->prev->val : 0;
-	z = (len >= 3) ? ps->top_b->prev->prev->val : 0;
-	v = (len == 4) ? ps->top_b->prev->prev->prev->val : 0;
 	if (len == 1)
 		return (1);
 	else if (len == 2 && x < y)
