@@ -6,26 +6,11 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 14:21:45 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/22 14:30:32 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/25 12:55:34 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pushswap.h>
-
-void	show_list(t_pushswap *ps, int option)
-{
-	t_stack *elem;
-
-	if (option == 'a')
-		elem = ps->top_a;
-	else
-		elem = ps->top_b;
-	while (elem)
-	{
-		ft_printf("%c.%d\n", option, elem->val);
-		elem = elem->prev;
-	}
-}
 
 void	stackdelone(t_stack **elem)
 {
@@ -41,15 +26,27 @@ void	stackdelone(t_stack **elem)
 		ft_memdel((void**)elem);
 		*elem = tmp;
 	}
+	*elem = 0;
 }
 
 void	stackdel(t_stack **elem)
 {
 	t_stack *tmp;
 
-	if (*elem)
+	if (!*elem)
+		return ;
+	tmp = *elem;
+	if (tmp->prev)
 	{
-		tmp = *elem;
+		while (tmp->prev)
+		{
+			tmp = (*elem)->prev;
+			free(*elem);
+			*elem = tmp;
+		}
+	}
+	else
+	{
 		while (tmp->next)
 		{
 			tmp = (*elem)->next;
@@ -57,17 +54,20 @@ void	stackdel(t_stack **elem)
 			*elem = tmp;
 		}
 	}
+	free(*elem);
+	*elem = 0;
 }
 
-int					ret_error(t_pushswap *ps)
+int		ret_error(t_pushswap *ps)
 {
-	free_data_stack(ps);
+	stackdel(&(ps->top_a));
+	stackdel(&(ps->top_b));
 	stackdel(&(ps->instruction_begin));
 	ft_putendl_fd("Error", 2);
 	return (-1);
 }
 
-void				find_max_min(t_stack *elem, int *max, int *min)
+void	find_max_min(t_stack *elem, int *max, int *min)
 {
 	t_stack *tmp;
 
@@ -85,4 +85,22 @@ void				find_max_min(t_stack *elem, int *max, int *min)
 			tmp = tmp->prev;
 		}
 	}
+}
+
+int		is_it_sorted(t_pushswap *ps, int option)
+{
+	t_stack	*tmp;
+
+	tmp = (option == 'a') ? ps->top_a : ps->top_b;
+	while (tmp)
+	{
+		if (!tmp->prev)
+			return (1);
+		else if (option == 'a' && tmp->prev->val < tmp->val)
+			return (0);
+		else if (option == 'b' && tmp->prev->val > tmp->val)
+			return (0);
+		tmp = tmp->prev;
+	}
+	return (1);
 }

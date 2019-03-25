@@ -6,31 +6,11 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 16:37:07 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/22 11:03:35 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/25 13:30:26 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pushswap.h>
-
-void				free_data_stack(t_pushswap *ps)
-{
-	t_stack	*stack;
-
-	stack = ps->top_a;
-	while (stack)
-	{
-		stack = stack->prev;
-		free(ps->top_a);
-		ps->top_a = stack;
-	}
-	stack = ps->top_b;
-	while (stack)
-	{
-		stack = stack->prev;
-		free(ps->top_b);
-		ps->top_b = stack;
-	}
-}
 
 inline static int	ps_atoi(t_pushswap *ps, const char *src, int *result)
 {

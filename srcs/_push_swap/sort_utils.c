@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ps_backtrack.c                                     :+:      :+:    :+:   */
+/*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/19 16:19:42 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/19 16:23:51 by aulopez          ###   ########.fr       */
+/*   Created: 2019/03/25 11:01:55 by aulopez           #+#    #+#             */
+/*   Updated: 2019/03/25 11:46:16 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,19 @@ int	backtrack_stack(int option, t_pushswap *ps, size_t rr)
 				return (0);
 	}
 	return (1);
+}
+
+int	other_push_needed(int option, t_pushswap *ps, size_t len, int pivot)
+{
+	t_stack	*elem;
+
+	elem = option == 'a' ? ps->top_a : ps->top_b;
+	while (len--)
+	{
+		if ((option == 'a' && elem->val < pivot)
+			|| (option == 'b' && elem->val > pivot))
+			return (1);
+		elem = elem->prev;
+	}
+	return (0);
 }

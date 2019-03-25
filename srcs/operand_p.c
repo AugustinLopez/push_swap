@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 14:35:35 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/22 11:24:35 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/25 12:40:50 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ inline static void	push_b(t_pushswap *ps)
 	tmp = ps->top_a->prev;
 	ps->top_a->prev = ps->top_b;
 	if (tmp)
-		tmp->next = NULL; 
+		tmp->next = NULL;
 	else
 		ps->bot_a = NULL;
 	if (ps->top_b)

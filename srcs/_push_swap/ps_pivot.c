@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 15:20:40 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/19 15:40:08 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/03/25 10:54:28 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,26 @@ static void	ft_quicksort(int **array, int first, int last)
 
 int			get_pivot(int option, t_pushswap *ps, size_t len, size_t *error)
 {
-	int		*x;
+	int		*tab;
 	int		i;
 	size_t	size;
 	t_stack	*elem;
 
-	elem = (option == 'a') ? ps->top_a : ps->top_b;
-	x = (int*)malloc(sizeof(int) * len);
+	*error = 0;
 	i = 0;
-	if (x)
+	elem = (option == 'a') ? ps->top_a : ps->top_b;
+	tab = (int*)malloc(sizeof(int) * len);
+	if (tab)
 	{
 		size = 0;
 		while (elem && len--)
 		{
-			x[size++] = elem->val;
+			tab[size++] = elem->val;
 			elem = elem->prev;
 		}
-		ft_quicksort(&x, 0, size - 1);
-		i = x[size / 2];
-		free(x);
+		ft_quicksort(&tab, 0, size - 1);
+		i = tab[size / 2];
+		free(tab);
 	}
 	else
 		*error = 1;
