@@ -40,7 +40,7 @@ static int	qs_partition(int **array, int first, int last)
 	return (low);
 }
 
-static void	ft_quicksort(int **array, int first, int last)
+void		ft_quicksort(int **array, int first, int last)
 {
 	int	pivot;
 
@@ -62,7 +62,7 @@ int			get_pivot(int option, t_pushswap *ps, size_t len, size_t *error)
 	*error = 0;
 	i = 0;
 	elem = (option == 'a') ? ps->top_a : ps->top_b;
-	tab = (int*)malloc(sizeof(int) * len);
+	tab = (int *)malloc(sizeof(int) * len);
 	if (tab)
 	{
 		size = 0;

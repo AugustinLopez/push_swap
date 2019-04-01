@@ -91,9 +91,9 @@ int					main(int ac, char **av)
 	ac -= operand;
 	av += operand;
 	ft_bzero(&ps, sizeof(ps));
-	if (!(load_initial_stack(&ps, av, ac)))
+	if (!(load_initial_stack(&ps, av, ac)) || !(find_index(&ps)))
 		return (ret_error(&ps));
-	if (ps.min != 1 || ps.max != ac || ps.max > 500)
+	if (/*ps.min != 1 || ps.max != ac || ps.max > 500*/ ac > 500)
 		flags &= ~CH_V;
 	if (!ch_checker(&ps, flags, &l))
 		return (ret_error(&ps));

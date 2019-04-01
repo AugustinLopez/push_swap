@@ -47,7 +47,7 @@ inline static int	squash_remove(t_pushswap *ps, int opt1, int opt2, int jump)
 	return (loop);
 }
 
-static inline void	squash_cfree(t_stack **tmp, t_stack **elem, int o1, int o3)
+static inline int	squash_cfree(t_stack **tmp, t_stack **elem, int o1, int o3)
 {
 	(*tmp)->val = o3;
 	stackdelone(elem);
@@ -55,6 +55,7 @@ static inline void	squash_cfree(t_stack **tmp, t_stack **elem, int o1, int o3)
 		(*tmp) = (*tmp)->next;
 	else
 		(*tmp) = 0;
+	return (1);
 }
 
 inline static int	squash_combi(t_pushswap *ps, int opt1, int opt2, int jump)
@@ -77,7 +78,7 @@ inline static int	squash_combi(t_pushswap *ps, int opt1, int opt2, int jump)
 		else if (!first && elem->val == opt1)
 			first = elem;
 		else if (first && elem->val == opt2)
-			squash_cfree(&first, &elem, opt1, opt3);
+			loop = squash_cfree(&first, &elem, opt1, opt3);
 		else if (elem->val != jump)
 			first = 0;
 		elem = (elem != 0) ? elem->next : 0;

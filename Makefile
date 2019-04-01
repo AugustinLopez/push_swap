@@ -19,7 +19,6 @@ SRC_CHECKER=	ch_main \
 				ch_parsing \
 				ch_show_sorting
 SRC_PUSHSWAP=	ps_main \
-				ps_pivot \
 				ps_squash_instruction \
 				sort_main \
 				sort_little_a \
@@ -29,7 +28,8 @@ SRC_BOTH=	operand_main \
 			operand_p \
 			operand_rr_r_s \
 			handle_stack \
-			utils
+			utils \
+			ft_quicksort
 HDR=	libft.h \
 		pushswap.h
 

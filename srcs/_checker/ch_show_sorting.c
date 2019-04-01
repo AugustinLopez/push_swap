@@ -47,8 +47,8 @@ inline static void	show_one(t_pushswap *ps, t_visualize *visu)
 	{
 		if (visu->flags & CH_C)
 			choose_color('b', ps, visu->b, visu->oper);
-		ft_printf("%*c   ", visu->offset + ps->max, ' ');
-		ft_printf("%*d %#*c\n", visu->offset, visu->b->val, visu->b->val, '|');
+		ft_printf("%*c   ", visu->offset + ps->a + ps->b, ' ');
+		ft_printf("%*d %#*c\n", visu->offset, visu->b->val, visu->b->index + 1, '|');
 		ft_putstr(FT_EOC);
 		visu->b = visu->b->prev;
 	}
@@ -56,7 +56,7 @@ inline static void	show_one(t_pushswap *ps, t_visualize *visu)
 	{
 		if (visu->flags & CH_C)
 			choose_color('a', ps, visu->a, visu->oper);
-		ft_printf("%-*d %#*c\n", visu->offset, visu->a->val, visu->a->val, '|');
+		ft_printf("%*d %#*c\n", visu->offset, visu->a->val, visu->a->index + 1, '|');
 		ft_putstr(FT_EOC);
 		visu->a = visu->a->prev;
 	}
@@ -66,12 +66,12 @@ inline static void	show_both(t_pushswap *ps, t_visualize *visu)
 {
 	if (visu->flags & CH_C)
 		choose_color('a', ps, visu->a, visu->oper);
-	ft_printf("%-*d %#*c", visu->offset, visu->a->val, visu->a->val, '|');
-	ft_printf("%#*c", ps->max - visu->a->val + 1, ' ');
+	ft_printf("%*d %#*c", visu->offset, visu->a->val, visu->a->index + 1, '|');
+	ft_printf("%#*c", ps->a + ps->b - visu->a->index + 1, ' ');
 	ft_putstr(FT_EOC);
 	if (visu->flags & CH_C)
 		choose_color('b', ps, visu->b, visu->oper);
-	ft_printf(" %*d %#*c\n", visu->offset, visu->b->val, visu->b->val, '|');
+	ft_printf(" %*d %#*c\n", visu->offset, visu->b->val, visu->b->index + 1, '|');
 	ft_putstr(FT_EOC);
 	visu->a = visu->a->prev;
 	visu->b = visu->b->prev;
@@ -79,10 +79,13 @@ inline static void	show_both(t_pushswap *ps, t_visualize *visu)
 
 inline static void	visualize(t_pushswap *ps, char *oper, int flags)
 {
-	t_visualize	visu;
+	t_visualize		visu;
+	unsigned int	i;
 
 	write(1, "\n", 1);
 	visu.offset = ft_nprintf("%d", ps->max);
+	i = ft_nprintf("%d", ps->min);
+	visu.offset = i > visu.offset ? i : visu.offset;
 	visu.a = ps->top_a;
 	visu.b = ps->top_b;
 	visu.oper = oper;
@@ -105,8 +108,6 @@ inline static void	visualize(t_pushswap *ps, char *oper, int flags)
 
 void				ch_visualize(t_pushswap *ps, int flags, char *oper)
 {
-	if (ps->min != 1)
-		flags &= ~CH_V;
 	if (flags & CH_V)
 	{
 		visualize(ps, oper, flags);

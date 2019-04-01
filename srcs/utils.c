@@ -67,6 +67,42 @@ int		ret_error(t_pushswap *ps)
 	return (-1);
 }
 
+int		find_index(t_pushswap *ps)
+{
+	int				*tab;
+	unsigned int	size;
+	unsigned int	i;
+	t_stack *elem;
+
+	tab = (int *)malloc(sizeof(int) * ps->a);
+	if (!tab)
+		return (0);
+	size = 0;
+	elem = ps->top_a;
+	while (elem)
+	{
+		tab[size++] = elem->val;
+		elem = elem->prev;
+	}
+	ft_quicksort(&tab, 0, size - 1);
+	elem = ps->top_a;
+	while (elem)
+	{
+		i = 0;
+		while (i < size)
+		{
+			if (tab[i] == elem->val)
+			{
+				elem->index = i;
+				break ;
+			}
+			i++;
+		}
+		elem = elem->prev;
+	}
+	return (1);
+}
+
 void	find_max_min(t_stack *elem, int *max, int *min)
 {
 	t_stack *tmp;

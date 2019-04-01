@@ -72,22 +72,22 @@ void	ps_swap(t_pushswap *ps, int option)
 {
 	int	tmp;
 
-	if (option == SA || option == SS)
+	if ((option == SA || option == SS) && (ps->top_a && ps->top_a->prev))
 	{
-		if (ps->top_a && ps->top_a->prev)
-		{
-			tmp = ps->top_a->val;
-			ps->top_a->val = ps->top_a->prev->val;
-			ps->top_a->prev->val = tmp;
-		}
+		tmp = ps->top_a->val;
+		ps->top_a->val = ps->top_a->prev->val;
+		ps->top_a->prev->val = tmp;
+		tmp = ps->top_a->index;
+		ps->top_a->index = ps->top_a->prev->index;
+		ps->top_a->prev->index = tmp;
 	}
-	if (option == SB || option == SS)
+	if ((option == SB || option == SS) && (ps->top_b && ps->top_b->prev))
 	{
-		if (ps->top_b && ps->top_b->prev)
-		{
-			tmp = ps->top_b->val;
-			ps->top_b->val = ps->top_b->prev->val;
-			ps->top_b->prev->val = tmp;
-		}
+		tmp = ps->top_b->val;
+		ps->top_b->val = ps->top_b->prev->val;
+		ps->top_b->prev->val = tmp;
+		tmp = ps->top_b->index;
+		ps->top_b->index = ps->top_b->prev->index;
+		ps->top_b->prev->index = tmp;
 	}
 }

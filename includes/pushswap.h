@@ -77,6 +77,7 @@ typedef struct		s_stack
 	struct s_stack	*prev;
 	struct s_stack	*next;
 	int				val;
+	unsigned int	index;
 }					t_stack;
 
 typedef struct		s_visualize
@@ -133,6 +134,8 @@ int					sort_stack_a(t_pushswap *ps, size_t len);
 int					get_pivot(int option, t_pushswap *ps,
 								size_t len, size_t *error);
 int					is_it_sorted(t_pushswap *ps, int option);
+void				ft_quicksort(int **array, int first, int last);
+int					find_index(t_pushswap *ps);
 
 /*
 ** Initialization & Free.
