@@ -26,8 +26,8 @@ do
 			MAX=$NUMBER;
 		fi
 		echo $i ":" $NUMBER
-		$SUM= $SUM + $NUMBER;
-		$ITERATIONS= $ITERATIONS + 1
+		SUM=$(($SUM + $NUMBER))
+		ITERATIONS=$(($ITERATIONS + 1))
 done
 
 echo "AVG: $(($SUM / $ITERATIONS))"

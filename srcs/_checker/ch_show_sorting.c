@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:21:10 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/25 14:17:42 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/02 15:29:44 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ inline static void	show_one(t_pushswap *ps, t_visualize *visu)
 	{
 		if (visu->flags & CH_C)
 			choose_color('b', ps, visu->b, visu->oper);
-		ft_printf("%*c   ", visu->offset + ps->a + ps->b, ' ');
+		ft_printf("%*c    ", visu->offset + ps->a + ps->b, ' ');
 		ft_printf("%*d %#*c\n", visu->offset, visu->b->val, visu->b->index + 1, '|');
 		ft_putstr(FT_EOC);
 		visu->b = visu->b->prev;

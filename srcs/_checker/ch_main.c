@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:36:57 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/25 14:54:55 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/02 15:34:29 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ inline static int	ch_checker(t_pushswap *ps, int flags, size_t *l)
 	}
 	if (ret == -1)
 		return (0);
-	if (!(ps->b) && (ret = is_it_sorted(ps, 'a')))
-		ft_putendl("OK");
-	else
-		ft_putendl("KO");
+	if (flags & CH_C)
+		(!(ps->b) && (is_it_sorted(ps, 'a'))) ? ft_putstr(FT_GREEN) : ft_putendl(FT_RED);
+	(!(ps->b) && (is_it_sorted(ps, 'a'))) ? ft_putendl("OK") : ft_putendl("KO");
+	if (flags & CH_C)
+		ft_putstr(FT_EOC);
 	stackdel(&(ps->bot_a));
 	stackdel(&(ps->bot_b));
 	stackdel(&(ps->instruction_begin));

@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/03/25 13:36:11 by aulopez          ###   ########.fr        #
+#    Updated: 2019/04/02 16:39:44 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC_PUSHSWAP=	ps_main \
 				sort_main \
 				sort_little_a \
 				sort_little_b \
-				sort_utils
+				sort_utils \
+				sort2_main
 SRC_BOTH=	operand_main \
 			operand_p \
 			operand_rr_r_s \

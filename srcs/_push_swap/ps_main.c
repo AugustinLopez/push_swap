@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 10:17:50 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/25 11:51:51 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/02 18:10:05 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ int					main(int ac, char **av)
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, ++av, ac)))
 		return (ret_error(&ps));
-	if (!(is_it_sorted(&ps, 'a')) && !sort_stack_a(&ps, ps.a))
+	/*if (!(is_it_sorted(&ps, 'a')) && !sort_stack_a(&ps, ps.a))
+		return (ret_error(&ps));*/
+	if (!(is_it_sorted(&ps, 'a')) && !sort_by_step(&ps, mode_greater))
 		return (ret_error(&ps));
 	squash_operand_stack(&ps);
 	show_list(ps.instruction_begin);
