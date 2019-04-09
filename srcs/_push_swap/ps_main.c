@@ -77,48 +77,50 @@ int					main(int ac, char **av)
 	initial = av;
 	if (!(load_initial_stack(&ps, ++av, ac)))
 		return (ret_error(&ps));
-	if (!(is_it_sorted(&ps, 'a')) && !sort_by_step(&ps, mode_incremental))
-		return (ret_error(&ps));
-	squash_operand_stack(&ps);
-	instruction = ps.instruction_begin;
-	ps.instruction_begin = 0;
-	stackdel(&ps.top_b);
-	stackdel(&ps.top_a);
-	av = initial;
-	ft_bzero(&ps, sizeof(ps));
-	if (!(load_initial_stack(&ps, ++av, ac)))
-		return (ret_error(&ps));
-	if (!(is_it_sorted(&ps, 'a')) && !sort_by_step(&ps, mode_greater))
-		return (ret_error(&ps));
-	squash_operand_stack(&ps);
-	if (ft_stksize(instruction) <= ft_stksize(ps.instruction_begin))
-		stackdel(&ps.instruction_begin);
-	else
-	{
-		stackdel(&instruction);
-		instruction = ps.instruction_begin;
-	}
-	ps.instruction_begin = 0;
-	stackdel(&ps.top_b);
-	stackdel(&ps.top_a);
-	av = initial;
-	ft_bzero(&ps, sizeof(ps));
-	if (!(load_initial_stack(&ps, ++av, ac)))
-		return (ret_error(&ps));
 	if (!(is_it_sorted(&ps, 'a')) && !sort_stack_a(&ps, ps.a))
 		return (ret_error(&ps));
 	squash_operand_stack(&ps);
-	if (ft_stksize(instruction) <= ft_stksize(ps.instruction_begin))
-		stackdel(&ps.instruction_begin);
-	else
+	instruction = ps.instruction_begin;
+	if (ac <= 500)
 	{
-		stackdel(&instruction);
-		instruction = ps.instruction_begin;
+		ps.instruction_begin = 0;
+		stackdel(&ps.top_b);
+		stackdel(&ps.top_a);
+		av = initial;
+		ft_bzero(&ps, sizeof(ps));
+		if (!(load_initial_stack(&ps, ++av, ac)))
+			return (ret_error(&ps));
+		if (!(is_it_sorted(&ps, 'a')) && !sort_by_step(&ps, mode_greater))
+			return (ret_error(&ps));
+		squash_operand_stack(&ps);
+		if (ft_stksize(instruction) <= ft_stksize(ps.instruction_begin))
+			stackdel(&ps.instruction_begin);
+		else
+		{
+			stackdel(&instruction);
+			instruction = ps.instruction_begin;
+		}
+		ps.instruction_begin = 0;
+		stackdel(&ps.top_b);
+		stackdel(&ps.top_a);
+		av = initial;
+		ft_bzero(&ps, sizeof(ps));
+		if (!(load_initial_stack(&ps, ++av, ac)))
+			return (ret_error(&ps));
+		if (!(is_it_sorted(&ps, 'a')) && !sort_by_step(&ps, mode_incremental))
+			return (ret_error(&ps));
+		squash_operand_stack(&ps);
+		if (ft_stksize(instruction) <= ft_stksize(ps.instruction_begin))
+			stackdel(&ps.instruction_begin);
+		else
+		{
+			stackdel(&instruction);
+			instruction = ps.instruction_begin;
+		}
 	}
 	ps.instruction_begin = 0;
 	stackdel(&ps.top_b);
 	stackdel(&ps.top_a);
-
 	show_list(instruction);
 	stackdel(&instruction);
 	return (0);

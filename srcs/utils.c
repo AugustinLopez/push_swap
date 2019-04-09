@@ -100,6 +100,7 @@ int		find_index(t_pushswap *ps)
 		}
 		elem = elem->prev;
 	}
+	free(tab);
 	return (1);
 }
 

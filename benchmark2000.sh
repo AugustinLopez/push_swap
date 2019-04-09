@@ -2,14 +2,13 @@
 
 MAX=0
 ITERATIONS=0
-LIMIT=700
-FILE=problem_100
+LIMIT=40000
+FILE=problem_2000
 SUM=0
 i=1
-MEM=0
-while [ "$i" -lt 1000 ]
+while [ "$i" -lt 101 ]
 do
-		ARG=`ruby -e "puts (1..5).to_a.shuffle.join(' ')"`
+		ARG=`ruby -e "puts (1..2000).to_a.shuffle.join(' ')"`
 		if ./push_swap $ARG | ./checker $ARG | grep -q KO
 		then
 			echo "Error!"
@@ -25,7 +24,6 @@ do
 		if [ "$NUMBER" -gt "$MAX" ]
 			then
 			MAX=$NUMBER;
-			MEM=$ARG
 		fi
 		echo $i ":" $NUMBER "-" $MAX
 		SUM=$(($SUM + $NUMBER))
@@ -33,6 +31,6 @@ do
 		i=$((i + 1))
 done
 
-echo "AVG: "$(($SUM / $ITERATIONS))
+echo "AVG: $(($SUM / $ITERATIONS))"
 echo "MAX: " $MAX
 echo "ARG: " $ARG
