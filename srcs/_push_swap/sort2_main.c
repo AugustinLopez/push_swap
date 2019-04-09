@@ -47,7 +47,7 @@ size_t	find_max(int option, t_pushswap *ps)
 	t_stack *elem;
 	size_t	max;
 	
-	min = 0;
+	max = 0;
 	elem = (option == 'a') ? ps->top_a : ps->top_b;
 	while (elem)
 	{
@@ -221,29 +221,114 @@ int			sort_a(t_pushswap *ps, size_t best, size_t (*mode)(t_pushswap *, size_t))
 	return (1);
 }
 
-/*size_t		find_best_insertion(t_pushswap *ps)
+void		find_distance(t_pushswap *ps, t_stack *tmp, size_t *ra, size_t *rra)
 {
-	int	ra;
-	int	rb;
-	int rra;
-	int rrb;
+	t_stack	*elem;
+
+	*ra = 0;
+	*rra = ps->a;
+	elem = ps->top_a;
+	while (elem != tmp)
+	{
+		(*ra)++;
+		(*rra)--;
+		elem = elem->prev;
+	}
+}
+
+int	ft_abs(t_move *mov, size_t size, size_t index)
+{
+	size_t	prev;
+	size_t	new;
+
+	prev = mov->i > size / 2 ? mov->i - size / 2 : size / 2 - mov->i;
+	new = index > size / 2 ? index - size / 2 : size / 2 - index;
+	if (prev > new)
+	{
+		mov->i = index;
+		return (1);
+	}
+	return (0);
+}
+
+size_t			ft_best(size_t ra, size_t rb, size_t rra, size_t rrb, t_move *mov, size_t size, size_t index)
+{
+	size_t	rr;
+	size_t rrr;
+	size_t rab;
+	size_t rba;
+
+	rr = ra < rb ? rb : ra;
+	rrr = rra < rrb ? rrb : rra;
+	rab = ra + rrb;
+	rba = rb + rra;
+	if (rr <= rrr && rr <= rab && rr <= rba)
+	{
+		if (mov->real > rr || (mov->real == rr && ft_abs(mov, size, index)))
+		{
+			mov->real = rr;
+			mov->rra = 0;
+			mov->rrb = 0;
+			mov->ra = ra;
+			mov->rb = rb;
+		}
+		return (rr);
+	}
+	if (rrr <= rr && rrr <= rab && rrr <= rba)
+	{
+		if (mov->real > rrr || (mov->real == rrr && ft_abs(mov, size, index)))
+		{
+			mov->real = rrr;
+			mov->rra = rra;
+			mov->rrb = rrb;
+			mov->ra = 0;
+			mov->rb = 0;
+		}
+		return (rrr);
+	}
+	if (rab <= rrr && rab <= rrr && rab <= rba)
+	{
+		if (mov->real > rab || (mov->real == rab && ft_abs(mov, size, index)))
+		{
+			mov->real = rab;
+			mov->rra = 0;
+			mov->rrb = rrb;
+			mov->ra = ra;
+			mov->rb = 0;
+		}
+		return (rab);
+	}
+	if (mov->real > rba || (mov->real == rba && ft_abs(mov, size, index)))
+	{
+		mov->real = rba;
+		mov->rra = rra;
+		mov->rrb = 0;
+		mov->ra = 0;
+		mov->rb = rb;
+	}
+	return (rba);
+}
+
+size_t		find_best_insertion(t_pushswap *ps, t_stack **mem_a, t_stack **mem_b, t_move *mov)
+{
+	size_t	ra;
+	size_t	rb;
+	size_t	rra;
+	size_t	rrb;
+	size_t	mem;
 	t_stack *elem;
 	t_stack	*tmp;
 
+	mem = LONG_MAX;
 	elem = ps->top_b;
 	rb = 0;
 	rrb = ps->b;
 	while (elem)
 	{
-		if (elem->index < find_min('a', ps))
+		if (elem->index < find_min('a', ps) || elem->index > find_max('a', ps))
 		{
 			tmp = find_elem('a', ps, find_min('a', ps));
-			//find distance to top
-		}
-		else if (elem->index > find_max('a', ps))
-		{
-			tmp = find_elem('a', ps, find_max('a', ps));
-			//find distance to top
+			find_distance(ps, tmp, &ra, &rra);
 		}
 		else
 		{
@@ -253,30 +338,92 @@ int			sort_a(t_pushswap *ps, size_t best, size_t (*mode)(t_pushswap *, size_t))
 				if (tmp == ps->top_a)
 				{
 					if (tmp->index > elem->index && ps->bot_a->index < elem->index)
-						//immediate push
-					tmp = tmp->prev;
-				}
-				else
-				{
-					if (tmp->index > elem->index && tmp->prev->index < elem->index)
 					{
-						//find distance to top
+						find_distance(ps, tmp, &ra, &rra);
+						break ;
 					}
 				}
+				else if (tmp->index > elem->index && tmp->next->index < elem->index)
+				{
+					find_distance(ps, tmp, &ra, &rra);
+					break ;
+				}
+					tmp = tmp->prev;
 			}
 		}
+		ra = ft_best(ra, rb, rra, rrb, mov, ps->a + ps->b, tmp->index);
+		if (mem > ra)
+		{
+			*mem_a = tmp;
+			*mem_b = elem;
+			mem = ra;
+			mov->real = ra;
+		}
+		rb++;
+		rrb--;
+		elem = elem->prev;
 	}
+	return (0);
 }
 
 int			sort_b(t_pushswap *ps)
 {
 	size_t	index;
+	t_stack *mem_a;
+	t_stack *mem_b;
+	t_move	mov;
 
 	while (ps->b)
 	{
-		index = find_best_insertion(ps);
+		mem_a = 0;
+		mem_b = 0;
+		ft_bzero(&mov, sizeof(mov));
+		mov.real = LONG_MAX;
+		index = find_best_insertion(ps, &mem_a, &mem_b, &mov);
+		(void)index;
+		while (mov.ra--)
+			if (!ps_operand(ps, RA, 1))
+				return (0);
+		while (mov.rb--)
+			if (!ps_operand(ps, RB, 1))
+				return (0);
+		while (mov.rra--)
+			if (!ps_operand(ps, RRA, 1))
+				return (0);
+		while (mov.rrb--)
+			if (!ps_operand(ps, RRB, 1))
+				return (0);
+		if (!ps_operand(ps, PA, 1))
+				return (0);
 	}
-}i*/
+	return (0);
+}
+
+int		align_a(t_pushswap *ps)
+{
+	t_stack *elem;
+	t_stack *tmp;
+	size_t		ra;
+	size_t		rra;
+	int			op;
+
+	elem = ps->top_a;
+	tmp = find_elem('a', ps, find_min('a', ps));
+	ra = 0;
+	rra = ps->a;
+	while (elem != tmp)
+	{
+		elem = elem->prev;
+		ra++;
+		rra--;
+	}
+	op = (ra <= rra) ? RA : RRA;
+	ra = (ra <= rra) ? ra : rra;
+	while (ra--)
+		if (!ps_operand(ps, op, 1))
+			return (0);
+	return (1);
+}
 
 int			sort_by_step(t_pushswap *ps, size_t (*mode)(t_pushswap *, size_t))
 {
@@ -292,7 +439,7 @@ int			sort_by_step(t_pushswap *ps, size_t (*mode)(t_pushswap *, size_t))
 	}
 	i = find_best_index(ps, mode);
 	sort_a(ps, i, mode);
-	/*sort_b(ps);
-	align(ps);*/
+	sort_b(ps);
+	align_a(ps);
 	return (1);
 }

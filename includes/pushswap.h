@@ -80,6 +80,16 @@ typedef struct		s_stack
 	unsigned int	index;
 }					t_stack;
 
+typedef struct		s_move
+{
+	size_t			ra;
+	size_t			rb;
+	size_t			rra;
+	size_t			rrb;
+	size_t			real;
+	size_t			i;
+}					t_move;
+
 typedef struct		s_visualize
 {
 	t_stack			*a;

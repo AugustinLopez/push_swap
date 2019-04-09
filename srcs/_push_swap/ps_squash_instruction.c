@@ -78,8 +78,13 @@ inline static int	squash_combi(t_pushswap *ps, int opt1, int opt2, int jump)
 		else if (!first && elem->val == opt1)
 			first = elem;
 		else if (first && elem->val == opt2)
+		{
 			loop = squash_cfree(&first, &elem, opt1, opt3);
-		else if (elem->val != jump)
+			elem = first;
+			first = 0;
+			continue ;
+		}
+		else if (elem->val != jump && elem->val != opt3 && elem->val != opt1)
 			first = 0;
 		elem = (elem != 0) ? elem->next : 0;
 	}
