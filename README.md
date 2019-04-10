@@ -35,6 +35,8 @@ If more than 500 valid parameters are given, only quicksort will be performed.
 - 5000 parameters : a dozen of seconds
 - 10000 parameters : a few minutes
 
+Performance would dramatically improve by reworking the pivot calculation. As of 10/04/2019 the quicksort's pivot is calculated at each step (by sorting a temporary array representing the state of the stack). All pivots could be calculated at the start and kept in memory using a binary tree: only one temporary array would be needed during the process.
+
 ### 0/ Array of 5
 Grading: Worst case < 12
 - Average: 5
