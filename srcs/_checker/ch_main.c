@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:36:57 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/02 15:34:29 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/10 11:50:08 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ int					main(int ac, char **av)
 	ac -= operand;
 	av += operand;
 	ft_bzero(&ps, sizeof(ps));
-	if (!(load_initial_stack(&ps, av, ac)) || !(find_index(&ps)))
+	if (!(load_initial_stack(&ps, av, ac)) || !(define_index(&ps)))
 		return (ret_error(&ps));
-	if (/*ps.min != 1 || ps.max != ac || ps.max > 500*/ ac > 500)
+	if (ac > 500)
 		flags &= ~CH_V;
 	if (!ch_checker(&ps, flags, &l))
 		return (ret_error(&ps));

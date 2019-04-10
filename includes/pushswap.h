@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 10:00:52 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/02 18:19:55 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/10 12:41:31 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,11 +145,15 @@ int					get_pivot(int option, t_pushswap *ps,
 								size_t len, size_t *error);
 int					is_it_sorted(t_pushswap *ps, int option);
 void				ft_quicksort(int **array, int first, int last);
-int					find_index(t_pushswap *ps);
-
+int					define_index(t_pushswap *ps);
+size_t				find_max_index(int option, t_pushswap *ps);
+size_t				find_min_index(int option, t_pushswap *ps);
+t_stack				*find_elem_index(int option, t_pushswap *ps, size_t index);
 size_t				mode_incremental(t_pushswap *ps, size_t index);
 size_t				mode_greater(t_pushswap *ps, size_t index);
 int					sort_by_step(t_pushswap *ps, size_t (*mode)(t_pushswap *, size_t));
+int					sort_step1(t_pushswap *ps, size_t best_index, size_t (*mode)(t_pushswap *, size_t));
+int					sort_step2(t_pushswap *ps);
 
 /*
 ** Initialization & Free.

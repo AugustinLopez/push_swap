@@ -3,20 +3,20 @@
 MAX=0
 ITERATIONS=0
 LIMIT=700
-FILE=problem_100
+FILE=limit_100
 SUM=0
 i=1
 MEM=0
-while [ "$i" -lt 1000 ]
+while [ "$i" -lt $1 ]
 do
-		ARG=`ruby -e "puts (1..5).to_a.shuffle.join(' ')"`
-		if ./push_swap $ARG | ./checker $ARG | grep -q KO
+		ARG=`ruby -e "puts (1..100).to_a.shuffle.join(' ')"`
+		if ../push_swap $ARG | ../checker $ARG | grep -q KO
 		then
 			echo "Error!"
 			echo $ARG
 			break
 		fi
-		NUMBER="$(./push_swap $ARG | wc -l | sed 's/ //g')"
+		NUMBER="$(../push_swap $ARG | wc -l | sed 's/ //g')"
 		if [ "$NUMBER" -gt "$LIMIT" ]
 			then
 			echo $NUMBER >> $FILE
@@ -33,6 +33,6 @@ do
 		i=$((i + 1))
 done
 
-echo "AVG: "$(($SUM / $ITERATIONS))
+echo "AVG: " $(($SUM / $ITERATIONS))
 echo "MAX: " $MAX
-echo "ARG: " $ARG
+echo "ARG: " $MEM

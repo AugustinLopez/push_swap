@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/04/02 16:39:44 by aulopez          ###   ########.fr        #
+#    Updated: 2019/04/10 12:41:10 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,14 @@ SRC_CHECKER=	ch_main \
 				ch_show_sorting
 SRC_PUSHSWAP=	ps_main \
 				ps_squash_instruction \
-				sort_main \
-				sort_little_a \
-				sort_little_b \
-				sort_utils \
-				sort2_main
+				quicksort_main \
+				quicksort_little_a \
+				quicksort_little_b \
+				quicksort_utils \
+				insertsort_main \
+				insertsort_mode \
+				insertsort_step1 \
+				insertsort_step2
 SRC_BOTH=	operand_main \
 			operand_p \
 			operand_rr_r_s \
