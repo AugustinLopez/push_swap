@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 10:00:52 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/11 11:19:49 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/11 15:44:54 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@
 
 /*
 ** t_stack is a double-link list
-** s_pushswap contains pointers to the end and beginning of both stack plus a
+** t_move is used to chose the best sequence of rotation
+** t_pushswap contains pointers to the end and beginning of both stack plus a
 ** stack of instructions (easier to modify, see squash_operand_stack).
 ** a and b are the current size of the stack.
 */

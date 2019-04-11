@@ -6,12 +6,14 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/04/11 11:21:04 by aulopez          ###   ########.fr        #
+#    Updated: 2019/04/11 15:42:16 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME=both
 NAME_1=checker
 NAME_2=push_swap
+NAME_LIB=$(PATH_LIB)libft.a
 
 # --- 1.Source/Header ----------------------------------------------------------
 
@@ -81,66 +83,52 @@ EOC=\033[0m
 
 # --- 5.Rules ------------------------------------------------------------------
 
-all: $(NAME_1) $(NAME_2)
+all: $(NAME)
 
-$(NAME_1): $(OBJ_BOTH) $(OBJ_CHECKER)
-	@printf "\r%50s" " "
-	@printf "\r$(YELLOW)Checking library:$(EOC)            "
-	@make -C $(PATH_LIB) >> /dev/null
-	@printf "$(GREEN)$(BOLD)Done.$(EOC)\n"
-	@printf "$(YELLOW)Compiling $(NAME_1):$(EOC)           "
+$(NAME): $(NAME_1) $(NAME_2)
+
+$(NAME_1): $(NAME_LIB) $(OBJ_BOTH) $(OBJ_CHECKER) $(INCLUDES)
+	-@printf "\r$(GREEN)Compiling $(NAME_2):$(EOC)         "
 	@$(OPTION_C1) $@ $(OBJ_CHECKER) $(OBJ_BOTH) $(OPTION_C2)
-	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
+	-@echo "$(GREEN)$(BOLD)Done.$(EOC)      \b\b\b\b\b\b"
 
-$(NAME_2): $(OBJ_BOTH) $(OBJ_PUSHSWAP)
-	@printf "\r%50s" " "
-	@printf "\r$(YELLOW)Checking library:$(EOC)            "
-	@make -C $(PATH_LIB) >> /dev/null
-	@printf "$(GREEN)$(BOLD)Done.$(EOC)\n"
-	@printf "$(YELLOW)Compiling $(NAME_2):$(EOC)         "
+$(NAME_2): $(NAME_LIB) $(OBJ_BOTH) $(OBJ_PUSHSWAP) $(INCLUDES)
+	-@printf "\r$(GREEN)Compiling $(NAME_1):$(EOC)           "
 	@$(OPTION_C1) $@ $(OBJ_PUSHSWAP) $(OBJ_BOTH) $(OPTION_C2)
-	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
+	-@echo "$(GREEN)$(BOLD)Done.$(EOC)      \b\b\b\b\b\b"
+
+$(NAME_LIB):
+	-@echo "=== SUBPROCESS - Updating library ==="
+	@make -C $(PATH_LIB)
+	-@echo "======== SUBPROCESS - Over =========="
 
 $(PATH_OBJ_B)%.o:$(PATH_SRC_B)%.c $(INCLUDES)
-	@printf "\r%50s" " "
-	@printf "\r$(CYAN)Creating %-35s$(EOC)" "$@$ "
+	-@printf "\r%50s" " "
+	-@printf "\r$(CYAN)Creating %-35s$(EOC)" "$@$ "
 	@$(OPTION_O) $< -o $@
 
 $(PATH_OBJ_C)%.o:$(PATH_SRC_C)%.c $(INCLUDES)
-	@printf "\r%50s" " "
-	@printf "\r$(PURPLE)Creating $@$ $(EOC)"
+	-@printf "\r%50s" " "
+	-@printf "\r$(PURPLE)Creating $@$ $(EOC)"
 	@$(OPTION_O) $< -o $@
 
 $(PATH_OBJ_P)%.o:$(PATH_SRC_P)%.c $(INCLUDES)
-	@printf "\r%50s" " "
-	@printf "\r$(BLUE)Creating $@$ $(EOC)"
+	-@printf "\r%50s" " "
+	-@printf "\r$(BLUE)Creating $@$ $(EOC)"
 	@$(OPTION_O) $< -o $@
 
-onlylib:
-	@echo "$(YELLOW)Updating library:$(EOC)              "
-	@make -C $(PATH_LIB) >> /dev/null
-	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
-
-fcleanlib:
-	@printf "$(RED)Removing library: $(EOC)           "
-	@make -C $(PATH_LIB) fclean > /dev/null
-	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
-
-cleanlib:
-	@printf "$(RED)Deleting library objects:$(EOC)    "
-	@make -C $(PATH_LIB) clean > /dev/null
-	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
-
 clean: cleanlib
-	@printf "$(RED)Deleting project objects:$(EOC)    "
+	-@printf "$(RED)Deleting project objects:$(EOC)    "
 	@rm -f $(OBJ_CHECKER) $(OBJ_PUSHSWAP) $(OBJ_BOTH)
-	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
+	@make -sC $(PATH_LIB) clean >> /dev/null
+	-@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
-fclean: clean fcleanlib
-	@printf "$(RED)Removing executables:$(EOC)        "
+fclean: clean
+	-@printf "$(RED)Removing executables:$(EOC)        "
 	@rm -f $(NAME_1) $(NAME_2)
-	@echo "$(GREEN)$(BOLD)Done.$(EOC)"
+	@make -sC $(PATH_LIB) fclean > /dev/null
+	-@echo "$(GREEN)$(BOLD)Done.$(EOC)"
 
 re: fclean all
 
-.PHONY: all clean fclean re fcleanlib cleanlib onlylib
+.PHONY: both all clean fclean re fcleanlib cleanlib onlylib
