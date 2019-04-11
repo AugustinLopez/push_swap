@@ -68,8 +68,12 @@ Grading: **5500** | 7000 | 8500 | 10000 | 11500
 - i: Instant visualisation (ASAP)
 - h: Help
 
-TBD:
-Use those options to chose specific sorting algorithms.
-- Q: Quicksort
-- G: "Greater than" Method
-- I: "Index increment" Method
+### Credit:
+- https://github.com/rodionvolovik/push_swap
+An implementation of the quicksort algorithm that i found easy to manipulate.
+
+- https://github.com/VBrazhnik/Push_swap
+I used his wiki to implement the insertion sort. Really pertinent use of function pointer.
+
+- https://github.com/rizkyario/42-push_swap
+My visualization algorithm is inspired from his gif.
