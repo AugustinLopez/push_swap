@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/04/11 16:35:00 by aulopez          ###   ########.fr        #
+#    Updated: 2019/04/11 16:58:51 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,7 @@ $(PATH_OBJ_P)%.o:$(PATH_SRC_P)%.c $(INCLUDES)
 	-@printf "\r$(BLUE)Creating $@$ $(EOC)"
 	@$(OPTION_O) $< -o $@
 
-clean: cleanlib
+clean:
 	-@printf "$(RED)Deleting project objects:$(EOC)    "
 	@rm -f $(OBJ_CHECKER) $(OBJ_PUSHSWAP) $(OBJ_BOTH)
 	@make -sC $(PATH_LIB) clean >> /dev/null
