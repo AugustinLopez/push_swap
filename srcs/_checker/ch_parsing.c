@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 12:47:48 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/25 14:38:10 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/11 12:31:53 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ int					ch_gnl(t_pushswap *ps, char *line, int flags)
 	int		i;
 
 	size = ft_strlen(line);
-	if (3 > size || size > 4)
+	if (3 > size || size > 4 || !ft_strchr(line, '\n'))
+	{
+		line ? ft_memdel((void **)&line) : 0;
 		return (-1);
+	}
 	line[size - 1] = '\0';
 	i = ch_operand(line);
 	if (i != -1)
@@ -54,7 +57,7 @@ int					ch_gnl(t_pushswap *ps, char *line, int flags)
 		ps_operand(ps, i, 0);
 		ch_visualize(ps, flags, line);
 	}
-	free(line);
+	line ? ft_memdel((void **)&line) : 0;
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 10:00:52 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/10 12:41:31 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/11 11:19:49 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,9 +151,14 @@ size_t				find_min_index(int option, t_pushswap *ps);
 t_stack				*find_elem_index(int option, t_pushswap *ps, size_t index);
 size_t				mode_incremental(t_pushswap *ps, size_t index);
 size_t				mode_greater(t_pushswap *ps, size_t index);
-int					sort_by_step(t_pushswap *ps, size_t (*mode)(t_pushswap *, size_t));
-int					sort_step1(t_pushswap *ps, size_t best_index, size_t (*mode)(t_pushswap *, size_t));
+int					sort_by_step(t_pushswap *ps,
+									size_t (*mode)(t_pushswap *, size_t));
+int					sort_step1(t_pushswap *ps, size_t best_index,
+									size_t (*mode)(t_pushswap *, size_t));
 int					sort_step2(t_pushswap *ps);
+size_t				ft_stksize(t_stack *elem);
+int					nbr_move_to_a(t_move *temp, t_move *rrx, size_t size,
+									size_t index);
 
 /*
 ** Initialization & Free.
@@ -165,7 +170,7 @@ void				free_data_stack(t_pushswap *ps);
 void				free_instruction_stack(t_pushswap *ps);
 void				stackdelone(t_stack **elem);
 void				stackdel(t_stack **elem);
-int					ret_error(t_pushswap *ps);
+int					ret_error(t_pushswap *ps, int option);
 
 /*
 ** Checker.
@@ -174,4 +179,5 @@ int					ret_error(t_pushswap *ps);
 int					ch_gnl(t_pushswap *ps, char *line, int flags);
 int					ch_parsing(int ac, char **av, int *flags);
 void				ch_visualize(t_pushswap *ps, int flags, char *oper);
+
 #endif

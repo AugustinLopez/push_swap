@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 10:45:09 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/25 12:44:13 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:23:03 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static inline int	squash_cfree(t_stack **tmp, t_stack **elem, int o1, int o3)
 		(*tmp) = (*tmp)->next;
 	else
 		(*tmp) = 0;
+	*elem = *tmp;
+	*tmp = 0;
 	return (1);
 }
 
@@ -65,25 +67,20 @@ inline static int	squash_combi(t_pushswap *ps, int opt1, int opt2, int jump)
 	int		loop;
 	int		opt3;
 
-	opt3 = SS * (opt1 == SA || opt2 == SA);
-	opt3 += RR * (opt1 == RA || opt2 == RA);
+	opt3 = SS * (opt1 == SA || opt2 == SA) + RR * (opt1 == RA || opt2 == RA);
 	opt3 += RRR * (opt1 == RRA || opt2 == RRA);
 	loop = 0;
-	elem = ps->instruction_begin;
 	first = 0;
+	elem = ps->instruction_begin;
 	while (elem)
 	{
 		if (!elem->next)
 			break ;
 		else if (!first && elem->val == opt1)
 			first = elem;
-		else if (first && elem->val == opt2)
-		{
-			loop = squash_cfree(&first, &elem, opt1, opt3);
-			elem = first;
-			first = 0;
+		else if (first && elem->val == opt2
+			&& (loop = squash_cfree(&first, &elem, opt1, opt3)))
 			continue ;
-		}
 		else if (elem->val != jump && elem->val != opt3 && elem->val != opt1)
 			first = 0;
 		elem = (elem != 0) ? elem->next : 0;

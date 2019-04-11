@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/04/10 12:41:10 by aulopez          ###   ########.fr        #
+#    Updated: 2019/04/11 11:21:04 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,18 +21,21 @@ SRC_CHECKER=	ch_main \
 SRC_PUSHSWAP=	ps_main \
 				ps_squash_instruction \
 				quicksort_main \
-				quicksort_little_a \
-				quicksort_little_b \
-				quicksort_utils \
+					quicksort_little_a \
+					quicksort_little_b \
+					quicksort_utils \
 				insertsort_main \
-				insertsort_mode \
-				insertsort_step1 \
-				insertsort_step2
+					insertsort_mode \
+					insertsort_step1 \
+					insertsort_step2 \
+						insertsort_step2_nbr
 SRC_BOTH=	operand_main \
-			operand_p \
-			operand_rr_r_s \
-			handle_stack \
+				operand_p \
+				operand_rr_r_s \
+			init_stack \
 			utils \
+				utils_stack \
+				utils_index \
 			ft_quicksort
 HDR=	libft.h \
 		pushswap.h

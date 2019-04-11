@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 16:37:07 by aulopez           #+#    #+#             */
-/*   Updated: 2019/03/25 13:30:26 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/11 13:35:05 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,26 @@ inline static int	load_number(t_pushswap *ps, char *tmp)
 	return (1);
 }
 
+inline static int	quick_check_digit(char *tmp)
+{
+	size_t	j;
+
+	j = 0;
+	while (tmp[j])
+	{
+		if (!j && (tmp[0] == '-' || tmp[0] == '+') && tmp[1])
+		{
+			j++;
+			continue ;
+		}
+		if (!ft_strchr("0123456789", tmp[j++]))
+			return (0);
+	}
+	if (!j)
+		return (0);
+	return (1);
+}
+
 inline static int	load_space_argv(t_pushswap *ps, char **tmp)
 {
 	size_t	i;
@@ -60,6 +80,8 @@ inline static int	load_space_argv(t_pushswap *ps, char **tmp)
 	i = 0;
 	while (tmp[i])
 	{
+		if (!quick_check_digit(tmp[i]))
+			return (0);
 		if (!(ps->bot_a))
 		{
 			if (!(ps->bot_a = ft_memalloc(sizeof(t_stack))))
@@ -84,11 +106,12 @@ int					load_initial_stack(t_pushswap *ps, char **av, int ac)
 	int		i;
 	char	**tmp;
 
+	ft_bzero(ps, sizeof(*ps));
 	i = -1;
 	while (++i < ac)
 	{
-		tmp = ft_strsplit(av[i], ' ');
-		i = (!tmp || load_space_argv(ps, tmp)) ? i : -1;
+		tmp = ft_strssplit(av[i], " \n\t\v\r\f");
+		i = (tmp && load_space_argv(ps, tmp)) ? i : -1;
 		ft_free_sarray(&tmp);
 		if (i == -1)
 			return (0);

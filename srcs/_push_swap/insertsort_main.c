@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 12:31:30 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/10 12:32:17 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:43:41 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static inline int		align(t_pushswap *ps)
 	return (1);
 }
 
-static inline size_t		find_best_index(t_pushswap *ps, int *err,
+static inline size_t	find_best_index(t_pushswap *ps, int *err,
 							size_t (*mode)(t_pushswap *, size_t))
 {
 	size_t	k;
@@ -68,7 +68,8 @@ static inline size_t		find_best_index(t_pushswap *ps, int *err,
 	return (best->index);
 }
 
-int			sort_by_step(t_pushswap *ps, size_t (*mode)(t_pushswap *, size_t))
+int						sort_by_step(t_pushswap *ps,
+									size_t (*mode)(t_pushswap *, size_t))
 {
 	t_stack	*elem;
 	size_t	i;
@@ -83,7 +84,7 @@ int			sort_by_step(t_pushswap *ps, size_t (*mode)(t_pushswap *, size_t))
 		elem = elem->prev;
 	}
 	err = 1;
-	i = find_best_index(ps, &err,mode);
+	i = find_best_index(ps, &err, mode);
 	if (err)
 		return (0);
 	sort_step1(ps, i, mode);

@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/25 13:21:10 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/02 15:29:44 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:21:26 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ inline static void	show_one(t_pushswap *ps, t_visualize *visu)
 		if (visu->flags & CH_C)
 			choose_color('b', ps, visu->b, visu->oper);
 		ft_printf("%*c    ", visu->offset + ps->a + ps->b, ' ');
-		ft_printf("%*d %#*c\n", visu->offset, visu->b->val, visu->b->index + 1, '|');
+		ft_printf("%*d ", visu->offset, visu->b->val);
+		ft_printf("%#*c\n", visu->b->index + 1, '|');
 		ft_putstr(FT_EOC);
 		visu->b = visu->b->prev;
 	}
@@ -56,7 +57,8 @@ inline static void	show_one(t_pushswap *ps, t_visualize *visu)
 	{
 		if (visu->flags & CH_C)
 			choose_color('a', ps, visu->a, visu->oper);
-		ft_printf("%*d %#*c\n", visu->offset, visu->a->val, visu->a->index + 1, '|');
+		ft_printf("%*d ", visu->offset, visu->a->val);
+		ft_printf("%#*c\n", visu->a->index + 1, '|');
 		ft_putstr(FT_EOC);
 		visu->a = visu->a->prev;
 	}
@@ -71,7 +73,8 @@ inline static void	show_both(t_pushswap *ps, t_visualize *visu)
 	ft_putstr(FT_EOC);
 	if (visu->flags & CH_C)
 		choose_color('b', ps, visu->b, visu->oper);
-	ft_printf(" %*d %#*c\n", visu->offset, visu->b->val, visu->b->index + 1, '|');
+	ft_printf(" %*d ", visu->offset, visu->b->val);
+	ft_printf("%#*c\n", visu->b->index + 1, '|');
 	ft_putstr(FT_EOC);
 	visu->a = visu->a->prev;
 	visu->b = visu->b->prev;

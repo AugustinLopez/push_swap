@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:36:57 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/10 11:50:08 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/11 12:52:16 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ inline static int	visualize_data(t_pushswap *ps, size_t l, int ac, char **av)
 	return (1);
 }
 
+inline static int	ch_ret(t_pushswap *ps, int ret)
+{
+	stackdel(&(ps->bot_a));
+	stackdel(&(ps->bot_b));
+	stackdel(&(ps->instruction_begin));
+	return (ret);
+}
+
 inline static int	ch_checker(t_pushswap *ps, int flags, size_t *l)
 {
 	int		ret;
@@ -40,23 +48,17 @@ inline static int	ch_checker(t_pushswap *ps, int flags, size_t *l)
 	while ((ret = ft_gnl(0, &line, 1)) > 0 && ++(*l))
 	{
 		if (ch_gnl(ps, line, flags) == -1)
-		{
-			if (line)
-				free(line);
 			return (0);
-		}
 	}
 	if (ret == -1)
 		return (0);
+	ret = is_it_sorted(ps, 'a');
 	if (flags & CH_C)
-		(!(ps->b) && (is_it_sorted(ps, 'a'))) ? ft_putstr(FT_GREEN) : ft_putendl(FT_RED);
-	(!(ps->b) && (is_it_sorted(ps, 'a'))) ? ft_putendl("OK") : ft_putendl("KO");
+		(!(ps->b) && ret) ? ft_putstr(FT_GREEN) : ft_putstr(FT_RED);
+	(!(ps->b) && ret) ? ft_putendl("OK") : ft_putendl("KO");
 	if (flags & CH_C)
 		ft_putstr(FT_EOC);
-	stackdel(&(ps->bot_a));
-	stackdel(&(ps->bot_b));
-	stackdel(&(ps->instruction_begin));
-	return (1);
+	return (ch_ret(ps, 1));
 }
 
 inline static int	ch_help(void)
@@ -93,11 +95,11 @@ int					main(int ac, char **av)
 	av += operand;
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)) || !(define_index(&ps)))
-		return (ret_error(&ps));
+		return (ret_error(&ps, 1));
 	if (ac > 500)
 		flags &= ~CH_V;
 	if (!ch_checker(&ps, flags, &l))
-		return (ret_error(&ps));
+		return (ret_error(&ps, 1));
 	if (flags & CH_D)
 		if (!visualize_data(&ps, l, ac, av))
 			return (-1);

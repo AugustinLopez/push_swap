@@ -6,56 +6,69 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 14:21:45 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/11 12:48:26 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/11 12:48:37 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pushswap.h>
 
-int					ret_error(t_pushswap *ps, int option)
+size_t				ft_stksize(t_stack *elem)
 {
-	stackdel(&(ps->top_a));
-	stackdel(&(ps->top_b));
-	stackdel(&(ps->instruction_begin));
-	if (option)
-		ft_putendl_fd("Error", 2);
-	return (-1);
+	t_stack *tmp;
+	size_t	n;
+
+	n = 0;
+	tmp = elem;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		n++;
+	}
+	return (n);
 }
 
-void				find_max_min(t_stack *elem, int *max, int *min)
+void				stackdelone(t_stack **elem)
 {
 	t_stack *tmp;
 
-	*max = INT_MIN;
-	*min = INT_MAX;
-	if (elem)
+	if (*elem)
 	{
-		tmp = elem;
-		while (tmp)
-		{
-			if (tmp->val > *max)
-				*max = tmp->val;
-			if (tmp->val < *min)
-				*min = tmp->val;
-			tmp = tmp->prev;
-		}
+		if ((*elem)->next)
+			(*elem)->next->prev = (*elem)->prev;
+		if ((*elem)->prev)
+			(*elem)->prev->next = (*elem)->next;
+		tmp = (*elem)->next;
+		ft_memdel((void**)elem);
+		*elem = tmp;
 	}
+	*elem = 0;
 }
 
-int					is_it_sorted(t_pushswap *ps, int option)
+void				stackdel(t_stack **elem)
 {
-	t_stack	*tmp;
+	t_stack *tmp;
 
-	tmp = (option == 'a') ? ps->top_a : ps->top_b;
-	while (tmp)
+	if (!*elem)
+		return ;
+	tmp = *elem;
+	if (tmp->prev)
 	{
-		if (!tmp->prev)
-			return (1);
-		else if (option == 'a' && tmp->prev->val < tmp->val)
-			return (0);
-		else if (option == 'b' && tmp->prev->val > tmp->val)
-			return (0);
-		tmp = tmp->prev;
+		while (tmp->prev)
+		{
+			tmp = (*elem)->prev;
+			ft_memdel((void **)elem);
+			*elem = tmp;
+		}
 	}
-	return (1);
+	else if (tmp->next)
+	{
+		while (tmp->next)
+		{
+			tmp = (*elem)->next;
+			ft_memdel((void **)elem);
+			*elem = tmp;
+		}
+	}
+	tmp ? ft_memdel((void **)&tmp) : 0;
+	*elem = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 11:53:16 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/10 12:07:27 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:10:32 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static inline int	is_it_done(t_pushswap *ps, int option)
 	return (1);
 }
 
-int			sort_step1(t_pushswap *ps, size_t best_index,
-					size_t (*mode)(t_pushswap *, size_t))
+int					sort_step1(t_pushswap *ps, size_t best_index,
+								size_t (*mode)(t_pushswap *, size_t))
 {
 	int	i;
 

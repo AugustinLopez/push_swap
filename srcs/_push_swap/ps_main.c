@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 10:17:50 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/02 18:10:05 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:35:43 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,78 +50,63 @@ inline static void	show_list(t_stack *elem)
 	}
 }
 
-inline static size_t	ft_stksize(t_stack *elem)
+void				algo_end(t_pushswap *ps, t_stack **elem, int option)
 {
-	t_stack *tmp;
-	size_t	n;
-
-	n = 0;
-	tmp = elem;
-	while (tmp)
+	if (!option)
 	{
-		tmp = tmp->next;
-		n++;
+		squash_operand_stack(ps);
+		stackdel(&(ps->top_b));
+		stackdel(&(ps->top_a));
 	}
-	return (n);
+	if (elem)
+	{
+		if (ft_stksize(*elem) <= ft_stksize(ps->instruction_begin))
+		{
+			stackdel(&(ps->instruction_begin));
+			ps->instruction_begin = *elem;
+		}
+		else
+			stackdel(elem);
+	}
+}
+
+int					sub_main(t_pushswap *ps, int ac, char **av)
+{
+	t_stack	*instruction;
+
+	if (!(load_initial_stack(ps, av, ac))
+		|| (!(is_it_sorted(ps, 'a')) && !sort_by_step(ps, mode_greater)))
+		return (ret_error(ps, 0));
+	algo_end(ps, 0, 0);
+	instruction = ps->instruction_begin;
+	if (!(load_initial_stack(ps, av, ac))
+		|| (!(is_it_sorted(ps, 'a')) && !sort_by_step(ps, mode_incremental)))
+	{
+		(void)ret_error(ps, 0);
+		ps->instruction_begin = instruction;
+		return (0);
+	}
+	algo_end(ps, &instruction, 0);
+	return (0);
 }
 
 int					main(int ac, char **av)
 {
 	t_pushswap	ps;
 	t_stack		*instruction;
-	char		**initial;
+	size_t		size;
 
 	if (ac-- < 2)
 		return (0);
-	ft_bzero(&ps, sizeof(ps));
-	initial = av;
-	if (!(load_initial_stack(&ps, ++av, ac)))
-		return (ret_error(&ps));
-	if (!(is_it_sorted(&ps, 'a')) && !sort_stack_a(&ps, ps.a))
-		return (ret_error(&ps));
-	squash_operand_stack(&ps);
+	if (!(load_initial_stack(&ps, ++av, ac))
+		|| (!(is_it_sorted(&ps, 'a')) && !sort_stack_a(&ps, ps.a)))
+		return (ret_error(&ps, 1));
+	size = ps.a;
+	algo_end(&ps, 0, 0);
 	instruction = ps.instruction_begin;
-	if (ac <= 500)
-	{
-		ps.instruction_begin = 0;
-		stackdel(&ps.top_b);
-		stackdel(&ps.top_a);
-		av = initial;
-		ft_bzero(&ps, sizeof(ps));
-		if (!(load_initial_stack(&ps, ++av, ac)))
-			return (ret_error(&ps));
-		if (!(is_it_sorted(&ps, 'a')) && !sort_by_step(&ps, mode_greater))
-			return (ret_error(&ps));
-		squash_operand_stack(&ps);
-		if (ft_stksize(instruction) <= ft_stksize(ps.instruction_begin))
-			stackdel(&ps.instruction_begin);
-		else
-		{
-			stackdel(&instruction);
-			instruction = ps.instruction_begin;
-		}
-		ps.instruction_begin = 0;
-		stackdel(&ps.top_b);
-		stackdel(&ps.top_a);
-		av = initial;
-		ft_bzero(&ps, sizeof(ps));
-		if (!(load_initial_stack(&ps, ++av, ac)))
-			return (ret_error(&ps));
-		if (!(is_it_sorted(&ps, 'a')) && !sort_by_step(&ps, mode_incremental))
-			return (ret_error(&ps));
-		squash_operand_stack(&ps);
-		if (ft_stksize(instruction) <= ft_stksize(ps.instruction_begin))
-			stackdel(&ps.instruction_begin);
-		else
-		{
-			stackdel(&instruction);
-			instruction = ps.instruction_begin;
-		}
-	}
-	ps.instruction_begin = 0;
-	stackdel(&ps.top_b);
-	stackdel(&ps.top_a);
-	show_list(instruction);
-	stackdel(&instruction);
+	if (size <= 500 && !sub_main(&ps, ac, av))
+		algo_end(&ps, &instruction, 1);
+	show_list(ps.instruction_begin);
+	stackdel(&ps.instruction_begin);
 	return (0);
 }
