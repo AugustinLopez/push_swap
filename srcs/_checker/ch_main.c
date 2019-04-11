@@ -6,7 +6,7 @@
 /*   By: aulopez <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:36:57 by aulopez           #+#    #+#             */
-/*   Updated: 2019/04/11 12:52:16 by aulopez          ###   ########.fr       */
+/*   Updated: 2019/04/11 16:30:26 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int					main(int ac, char **av)
 	ft_bzero(&ps, sizeof(ps));
 	if (!(load_initial_stack(&ps, av, ac)) || !(define_index(&ps)))
 		return (ret_error(&ps, 1));
-	if (ac > 500)
+	if (ps.a > 500)
 		flags &= ~CH_V;
 	if (!ch_checker(&ps, flags, &l))
 		return (ret_error(&ps, 1));

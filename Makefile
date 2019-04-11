@@ -6,7 +6,7 @@
 #    By: aulopez <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/12 11:06:27 by aulopez           #+#    #+#              #
-#    Updated: 2019/04/11 15:42:16 by aulopez          ###   ########.fr        #
+#    Updated: 2019/04/11 16:35:00 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ INCLUDES=$(HDR:%=$(PATH_HDR)%)
 # --- 4.Compilation Variables --------------------------------------------------
 
 CC=gcc
-FLAGS=-Wall -Wextra -Werror -g3
+FLAGS=-Wall -Wextra -Werror
 OPTION_O=$(CC) $(FLAGS) -c -I$(PATH_HDR)
 OPTION_C1=$(CC) $(FLAGS) -o
 OPTION_C2=-I$(PATH_HDR) -L$(PATH_LIB) -lft
@@ -131,4 +131,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: both all clean fclean re fcleanlib cleanlib onlylib
+.PHONY: both all clean fclean re
