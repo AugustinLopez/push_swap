@@ -63,7 +63,7 @@ INCLUDES=$(HDR:%=$(PATH_HDR)%)
 # --- 4.Compilation Variables --------------------------------------------------
 
 CC=gcc
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-Wall -Wextra -Werror -g3
 OPTION_O=$(CC) $(FLAGS) -c -I$(PATH_HDR)
 OPTION_C1=$(CC) $(FLAGS) -o
 OPTION_C2=-I$(PATH_HDR) -L$(PATH_LIB) -lft

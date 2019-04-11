@@ -48,7 +48,10 @@ inline static int	ch_checker(t_pushswap *ps, int flags, size_t *l)
 	while ((ret = ft_gnl(0, &line, 1)) > 0 && ++(*l))
 	{
 		if (ch_gnl(ps, line, flags) == -1)
+		{
+			(void)ft_gnl(-1, &line, 0);
 			return (0);
+		}
 	}
 	if (ret == -1)
 		return (0);

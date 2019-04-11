@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 echo "Dont' forget to test for memory leaks too !"
+echo "I should probably switch to printf to avoid issue with echo version"
 
 echo "\n======== Basic Test ========"
 echo "1. Expect OK         : \\c" ; echo "\c" | ../checker 1
@@ -50,8 +51,8 @@ echo "\n\n======== Error Cmd ========"
 echo "1. Expect Error      : \\c" ; echo "sas" | ../checker 1 2
 echo "2. Expect Error      : \\c" ; echo "s" | ../checker 1 2
 echo "3. Expect Error      : \\c" ; echo "\0" | ../checker 1 2
-echo "4. Expect Error      : \\c" ; echo "\0sa" | ../checker 1 2
-echo "5. Expect Error      : \\c" ; echo "sa\0" | ../checker 1 2
+echo "4. Expect Error      : \\c" ; echo "\0sa" | ../checker 1 2 ; echo "\c"
+echo "5. Expect Error  (*) : \\c" ; echo "sa\0" | ../checker 1 2
 echo "6. Expect Error      : \\c" ; echo "sas ls" | ../checker 1 2
 echo "7. Expect Error      : \\c" ; echo "sas ls" | ../checker 1 2
 echo "8. Expect Error      : \\c" ; echo "      ss" | ../checker 2 1
