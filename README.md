@@ -52,10 +52,10 @@ sh random.sh [unsigned int] [-vcdsfih]
 
 I use 3 algorithms in total: one quicksort and two insertion sorts. 
 Once an algorithm has been calculated, the result is run through a function to combine and remove specific sets of operations.
-The best series of instruction is then selected and printed to STDOUT. The best series is the one with the least amount of instruction.
+The best series of instruction is then selected and printed to STDOUT. The best serie is the one with the least amount of instruction.
 
 Quicksort performs better on bigger stacks. Insertion based sorts perform better on smaller and almost-sorted stacks.
-If more than 500 valid parameters are given only quicksort is performed as performance starts to become an issue. If a memory error occurs after at least one algorithm has succeeded, the stocked list of instruction will be printed.
+If more than 500 valid parameters are given only quicksort is performed as performance starts to become an issue. If a memory error occurs after at least one algorithm has succeeded, the result will be printed.
 
 ### 1/ Quicksort
 - Elements lower than the pivot are pushed or stay in stack B. 
@@ -82,7 +82,7 @@ If more than 500 valid parameters are given only quicksort is performed as perfo
 - 5000 parameters : a dozen of seconds
 - 10000 parameters : a few minutes
 
-Performance would dramatically improve by reworking the pivot calculation. As of 10/04/2019 the quicksort's pivot is calculated at each step (by sorting a temporary array representing the state of the stack). All pivots could be calculated at the start and kept in memory using a binary tree: only one temporary array would be needed during the process.
+Performance would dramatically improve by reworking the pivot calculation. As of 10/04/2019 the quicksort's pivot is calculated at each step (by sorting a temporary array representing the state of the stack). All pivots could theorically be calculated right from the start.
 
 ### 0/ Array of 5
 Grading: Worst case < 12
